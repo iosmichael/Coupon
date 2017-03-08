@@ -12,15 +12,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="72" id="KGk-i7-Jjw" customClass="ItemTableViewCell" customModule="CouponApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="355" height="72"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="85" id="KGk-i7-Jjw" customClass="ItemTableViewCell" customModule="CouponApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="355" height="84"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="355" height="71.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="355" height="83"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="amazon" translatesAutoresizingMaskIntoConstraints="NO" id="6pn-Cy-gfZ">
-                        <rect key="frame" x="8" y="8.5" width="55" height="55"/>
+                        <rect key="frame" x="8" y="14.5" width="55" height="55"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="69k-eY-iMw"/>
                             <constraint firstAttribute="height" constant="55" id="JfG-az-jqY"/>
@@ -38,19 +38,33 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2017-2-8" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibJ-C9-HFF">
+                        <rect key="frame" x="301.5" y="66.5" width="45.5" height="13"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="nBM-UK-nQL" firstAttribute="top" secondItem="6pn-Cy-gfZ" secondAttribute="top" id="0h6-dj-7bg"/>
+                    <constraint firstAttribute="bottom" secondItem="ibJ-C9-HFF" secondAttribute="bottom" constant="4" id="5H1-Op-i5a"/>
                     <constraint firstItem="nBM-UK-nQL" firstAttribute="leading" secondItem="6pn-Cy-gfZ" secondAttribute="trailing" constant="8" id="LJR-MP-GCU"/>
                     <constraint firstItem="flB-CP-gMi" firstAttribute="top" secondItem="nBM-UK-nQL" secondAttribute="bottom" constant="3" id="Mmn-qM-5aW"/>
+                    <constraint firstItem="nBM-UK-nQL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="YRa-Kc-ORx"/>
                     <constraint firstItem="6pn-Cy-gfZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="ZZJ-9z-2es"/>
                     <constraint firstAttribute="trailing" secondItem="nBM-UK-nQL" secondAttribute="trailing" constant="8" id="Zd9-Lx-tAQ"/>
+                    <constraint firstAttribute="trailing" secondItem="ibJ-C9-HFF" secondAttribute="trailing" constant="8" id="fDv-JC-hLu"/>
                     <constraint firstItem="flB-CP-gMi" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="kGP-Ea-SQm"/>
                     <constraint firstItem="6pn-Cy-gfZ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="nPl-6L-L1w"/>
                     <constraint firstItem="flB-CP-gMi" firstAttribute="leading" secondItem="6pn-Cy-gfZ" secondAttribute="trailing" constant="8" id="per-xq-Ije"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="63.5" y="68"/>
+            <connections>
+                <outlet property="couponName" destination="flB-CP-gMi" id="eYG-qY-UP0"/>
+                <outlet property="itemDate" destination="ibJ-C9-HFF" id="g4s-rm-IyF"/>
+                <outlet property="storeName" destination="nBM-UK-nQL" id="7ot-uG-hhx"/>
+                <outlet property="thumbnail" destination="6pn-Cy-gfZ" id="Kv4-7D-dba"/>
+            </connections>
+            <point key="canvasLocation" x="63.5" y="74"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -49,7 +49,10 @@ class HomeTableViewController: UITableViewController {
 
     func searchButtonTapped(){
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-        let searchViewController = storyboard.instantiateViewController(withIdentifier: "search")
+        let searchViewController = storyboard.instantiateViewController(withIdentifier: "search") as! SearchViewController
+        if switchIndex != 0 {
+            searchViewController.isItem = false
+        }
         self.navigationController?.pushViewController(searchViewController, animated: true)
     }
     
@@ -76,6 +79,8 @@ class HomeTableViewController: UITableViewController {
         if switchIndex == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "Item", for: indexPath) as! ItemTableViewCell
             cell.selectionStyle = .none
+            let item = itemData[indexPath.row]
+            cell.setItem(item: item)
             return cell
         }
         //Store
@@ -90,7 +95,21 @@ class HomeTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if switchIndex == 0{
-            
+            let item = itemData[indexPath.row]
+            let itemCell: ItemTableViewCell = cell as! ItemTableViewCell
+            if item.store?.thumbnail != nil {
+                DispatchQueue.global().async {
+                    if let url = NSURL(string: (item.store?.thumbnail)!) {
+                        if let data = NSData(contentsOf: url as URL) {
+                            let thumbnailImg = UIImage.init(data: data as Data!)
+                            item.store?.thumbnailImg = thumbnailImg
+                            DispatchQueue.main.async {
+                                itemCell.setThumbnailImage(image: thumbnailImg!)
+                            }
+                        }
+                    }
+                }
+            }
         }else{
             let store = storeData[indexPath.row]
             let storeCell: StoreTableViewCell = cell as! StoreTableViewCell
@@ -112,8 +131,15 @@ class HomeTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "couponView")
-        self.navigationController?.pushViewController(viewController, animated: true)
+        if switchIndex == 0 {
+            let viewController = storyboard.instantiateViewController(withIdentifier: "couponView") as! CouponTableViewController
+            viewController.coupon = itemData[indexPath.row]
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }else{
+            let viewController = storyboard.instantiateViewController(withIdentifier: "storeDetail") as! StoreTableViewController
+            viewController.store = storeData[indexPath.row]
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

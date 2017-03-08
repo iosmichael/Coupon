@@ -29,6 +29,7 @@ class ItemManager: NSObject {
         var items = [Item]()
         for child:FIRDataSnapshot in snapshot.children.allObjects as! [FIRDataSnapshot]{
             let item = Item()
+            let store = Store()
             item.uid = child.key
             print("snapshot --------> \(snapshot)")
             print("child --------> \(child)")
@@ -43,12 +44,21 @@ class ItemManager: NSObject {
                 case  "date":
                     item.date = elem.value as! String!
                     break
-                case "tags":
+                //STORE VARIABLE
+                case "storeId":
+                    store.uid = elem.value as! String!
+                    break
+                case "storeName":
+                    store.title = elem.value as! String!
+                    break
+                case "storeThumbnail":
+                    store.thumbnail = elem.value as! String!
                     break
                 default:
                     break
                 }
             }
+            item.store = store
             items.append(item)
         }
         return items

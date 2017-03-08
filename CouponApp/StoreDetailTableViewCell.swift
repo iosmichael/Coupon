@@ -1,99 +1,87 @@
 //
-//  UsageTableViewCell.swift
+//  StoreDetailTableViewCell.swift
 //  CouponApp
 //
-//  Created by Michael Liu on 3/5/17.
+//  Created by Michael Liu on 3/8/17.
 //  Copyright © 2017 Coupon. All rights reserved.
 //
 
 import UIKit
 
-class UsageTableViewCell: UITableViewCell {
+class StoreDetailTableViewCell: UITableViewCell {
+    static let height:CGFloat = 77
 
-    static let height:CGFloat = 112
-    
-    var active = false
-    
-    @IBOutlet weak var numberOfUses: UILabel!
-    @IBOutlet weak var availableText: UILabel!
-    @IBOutlet weak var getCouponBtn: UIButton!
-    @IBOutlet weak var instructionText: UILabel!
-   
+    @IBOutlet weak var detail: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        getCouponBtn.layer.cornerRadius = 20
-        if !active {
-            instructionText.isHidden = !active
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        // Configure the view for the selected state
+    }
+    
+    class func getHeight() -> CGFloat{
+        return height
+    }
+    
+    func setDetail(detail:String){
+        self.detail.text = detail
+    }
+
+}
+
+class OtherOfferTableViewCell: UITableViewCell {
+    static let height:CGFloat = 77
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        // Configure the view for the selected state
+    }
+    
+    class func getHeight() -> CGFloat{
+        return height
+    }
+    
+}
+
+
+class StoreTitleTableViewCell: UITableViewCell {
+    static let height:CGFloat = 77
+    @IBOutlet weak var thumbnail: UIImageView!
+    @IBOutlet weak var storeName: UILabel!
+    @IBOutlet weak var category: UILabel!
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
+    
+    class func getHeight() -> CGFloat{
+        return height
+    }
+    
+    func setStore(store:Store){
+        self.storeName.text = store.title
+        self.category.text = "Shopping & Clothing"
+        if store.thumbnailImg == nil{
+            self.thumbnail.image = UIImage.init(named: "amazon")
+        }else{
+            self.thumbnail.image = store.thumbnailImg
         }
-        
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-    @IBAction func getCoupon(_ sender: Any) {
-        
-    }
-    
-    class func getHeight() -> CGFloat{
-        return height
-    }
-
-}
-
-
-class infoTableViewCell: UITableViewCell {
-    static let height:CGFloat = 45
-    
-    @IBOutlet weak var icon: UIImageView!
-    @IBOutlet weak var websiteURL: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
-    class func getHeight() -> CGFloat{
-        return height
-    }
-    
-    func setInfoCell(icon:UIImage, content:String){
-        self.icon.image = icon
-        self.websiteURL.text = content
     }
 }
 
-class offerTableViewCell:UITableViewCell{
-    static let height:CGFloat = 75
-    
-    @IBOutlet weak var offerText: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
-    class func getHeight() -> CGFloat{
-        return height
-    }
-    
-    func setOfferDetail(detail:String){
-        self.offerText.text = detail
-        self.setNeedsLayout()
-    }
-}
 

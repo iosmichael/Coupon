@@ -12,11 +12,13 @@ class CouponTableViewController: UITableViewController {
     
     let numberOfSection = 4
     
+    var coupon:Item?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(UINib.init(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: "item")
         self.tableView.separatorStyle = .none
+        setupContent()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,6 +45,7 @@ class CouponTableViewController: UITableViewController {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "item") as! ItemTableViewCell
             cell.selectionStyle = .none
+            cell.setItem(item: coupon!)
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "usage") as! UsageTableViewCell
@@ -51,6 +54,7 @@ class CouponTableViewController: UITableViewController {
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "offer") as! offerTableViewCell
             cell.selectionStyle = .none
+            cell.setOfferDetail(detail: (coupon?.detail)!)
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "info") as! infoTableViewCell
@@ -104,6 +108,10 @@ class CouponTableViewController: UITableViewController {
         view.addSubview(label)
         view.backgroundColor = .white
         return view
+    }
+    
+    func setupContent(){
+    
     }
 
 }

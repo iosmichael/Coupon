@@ -161,7 +161,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="SRB-jG-5C8">
-                                <rect key="frame" x="0.0" y="64" width="375" height="45"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="45"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="KEU-Ex-CMg"/>
@@ -170,7 +170,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jr9-eg-RD0">
-                                <rect key="frame" x="0.0" y="109" width="375" height="558"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="602"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
@@ -341,13 +341,13 @@
         <!--Store Table View Controller-->
         <scene sceneID="vNJ-MS-SGx">
             <objects>
-                <tableViewController id="cQK-gc-WPH" customClass="StoreTableViewController" customModule="CouponApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="storeDetail" id="cQK-gc-WPH" customClass="StoreTableViewController" customModule="CouponApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="76" sectionHeaderHeight="28" sectionFooterHeight="28" id="YrQ-tf-YrH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="76" id="Lbf-mT-OuC">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="store" rowHeight="76" id="Lbf-mT-OuC" customClass="StoreTitleTableViewCell" customModule="CouponApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lbf-mT-OuC" id="lej-zW-P05">
@@ -385,8 +385,13 @@
                                         <constraint firstItem="wKq-fk-zD3" firstAttribute="trailing" secondItem="lej-zW-P05" secondAttribute="trailingMargin" id="rqw-dy-xqO"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="category" destination="845-qK-0Im" id="7Zu-LJ-XBr"/>
+                                    <outlet property="storeName" destination="wKq-fk-zD3" id="EU4-oS-Kns"/>
+                                    <outlet property="thumbnail" destination="KFv-tr-Is7" id="Pf9-qh-RWh"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="77" id="Q5W-5x-gFu">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="otherOffer" rowHeight="77" id="Q5W-5x-gFu" customClass="OtherOfferTableViewCell" customModule="CouponApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="104" width="375" height="77"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q5W-5x-gFu" id="sHS-q3-6Rn">
@@ -414,6 +419,31 @@
                                         <constraint firstItem="wr5-QQ-V1i" firstAttribute="trailing" secondItem="sHS-q3-6Rn" secondAttribute="trailingMargin" id="ZSs-ha-iM4"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="detail" rowHeight="77" id="0Vw-Ak-qjf" customClass="StoreDetailTableViewCell" customModule="CouponApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="181" width="375" height="77"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Vw-Ak-qjf" id="qOi-j9-Nu5">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="76"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Up to 85% on electronic items, fashion and more. This section also features the most attractive deals from these categories" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nv1-7V-dA4">
+                                            <rect key="frame" x="8" y="8" width="359" height="60"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="nv1-7V-dA4" firstAttribute="top" secondItem="qOi-j9-Nu5" secondAttribute="topMargin" id="1fV-qU-KuU"/>
+                                        <constraint firstItem="nv1-7V-dA4" firstAttribute="leading" secondItem="qOi-j9-Nu5" secondAttribute="leadingMargin" id="Z1J-CB-LGh"/>
+                                        <constraint firstItem="nv1-7V-dA4" firstAttribute="trailing" secondItem="qOi-j9-Nu5" secondAttribute="trailingMargin" id="dOA-cY-zmr"/>
+                                        <constraint firstItem="nv1-7V-dA4" firstAttribute="bottom" secondItem="qOi-j9-Nu5" secondAttribute="bottomMargin" id="h45-U6-ZT6"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="detail" destination="nv1-7V-dA4" id="G0b-IR-XDd"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

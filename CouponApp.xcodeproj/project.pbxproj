@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4877BEA4AF3ECCB14D24D718 /* Pods_CouponAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ED5E5E0977A15A7EFC9CCD1 /* Pods_CouponAppUITests.framework */; };
+		9E3C181B1E6FE00600006CF3 /* StoreDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3C181A1E6FE00600006CF3 /* StoreDetailTableViewCell.swift */; };
 		9EC52D061E6CBE2100DD2664 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC52D051E6CBE2100DD2664 /* AppDelegate.swift */; };
 		9EC52D0D1E6CBE2100DD2664 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EC52D0B1E6CBE2100DD2664 /* Main.storyboard */; };
 		9EC52D0F1E6CBE2100DD2664 /* icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EC52D0E1E6CBE2100DD2664 /* icons.xcassets */; };
@@ -63,6 +64,7 @@
 		4E05174841F715BC5D8E13C0 /* Pods-CouponAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CouponAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CouponAppUITests/Pods-CouponAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4ED5E5E0977A15A7EFC9CCD1 /* Pods_CouponAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CouponAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D10A31DFAB250582E3CBBF4 /* Pods-CouponAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CouponAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CouponAppTests/Pods-CouponAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9E3C181A1E6FE00600006CF3 /* StoreDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreDetailTableViewCell.swift; sourceTree = "<group>"; };
 		9EC52D021E6CBE2100DD2664 /* CouponApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CouponApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EC52D051E6CBE2100DD2664 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9EC52D0C1E6CBE2100DD2664 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				9EC52D481E6CC5F200DD2664 /* UsageTableViewCell.swift */,
 				9EC52D4A1E6CC6E500DD2664 /* MessageTableViewCell.swift */,
 				9EC52D5B1E6D2B9400DD2664 /* DGRunKeeperSwitch.swift */,
+				9E3C181A1E6FE00600006CF3 /* StoreDetailTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -353,7 +356,7 @@
 				TargetAttributes = {
 					9EC52D011E6CBE2000DD2664 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = B28P9MRX7G;
+						DevelopmentTeam = 86YAS65GYB;
 						ProvisioningStyle = Automatic;
 					};
 					9EC52D171E6CBE2100DD2664 = {
@@ -568,6 +571,7 @@
 				9EC52D581E6D29CF00DD2664 /* HomeTableViewController.swift in Sources */,
 				9EC52D471E6CC32500DD2664 /* HomePageSlideView.swift in Sources */,
 				9EC52D491E6CC5F200DD2664 /* UsageTableViewCell.swift in Sources */,
+				9E3C181B1E6FE00600006CF3 /* StoreDetailTableViewCell.swift in Sources */,
 				9EC52D3B1E6CBF0500DD2664 /* Store.swift in Sources */,
 				9EC52D391E6CBE8A00DD2664 /* Item.swift in Sources */,
 				9EC52D621E6D467B00DD2664 /* ItemManager.swift in Sources */,
@@ -733,8 +737,9 @@
 			baseConfigurationReference = 3905C1A2DF1261C9849F5246 /* Pods-CouponApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = B28P9MRX7G;
+				DEVELOPMENT_TEAM = 86YAS65GYB;
 				INFOPLIST_FILE = CouponApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xupeng.coupon.CouponApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -747,8 +752,9 @@
 			baseConfigurationReference = C93CE92EE08F5DAE2D33CA13 /* Pods-CouponApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = B28P9MRX7G;
+				DEVELOPMENT_TEAM = 86YAS65GYB;
 				INFOPLIST_FILE = CouponApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xupeng.coupon.CouponApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
