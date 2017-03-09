@@ -42,7 +42,6 @@ class HomeTableViewController: UITableViewController {
     // MARK: - Controls
     
     func switchValueDidChange(sender: DGRunkeeperSwitch!) {
-        print("valueChanged: \(sender.selectedIndex)")
         self.switchIndex = sender.selectedIndex
         self.tableView.reloadData()
     }

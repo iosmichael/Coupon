@@ -19,8 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FIRApp.configure()
         UITabBar.appearance().tintColor = .black
+        UITabBar.appearance().barTintColor = .white
         UITabBar.appearance().backgroundColor = .white
-        UITabBar.appearance().isOpaque = true
+        UITabBar.appearance().isTranslucent = true
+        UITabBar.appearance().clipsToBounds = true
+        
+        UINavigationBar.appearance().barTintColor = .white
+        
+        UINavigationBar.appearance().clipsToBounds = true
+        
+        UINavigationBar.appearance().isTranslucent = true
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().backgroundColor = .white
+        UINavigationBar.appearance().tintColor = .black
         return true
     }
 

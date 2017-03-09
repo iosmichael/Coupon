@@ -10,22 +10,14 @@ import UIKit
 
 class UsageTableViewCell: UITableViewCell {
 
-    static let height:CGFloat = 112
+    static let height:CGFloat = 75
     
-    var active = false
-    
-    @IBOutlet weak var numberOfUses: UILabel!
-    @IBOutlet weak var availableText: UILabel!
     @IBOutlet weak var getCouponBtn: UIButton!
-    @IBOutlet weak var instructionText: UILabel!
    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         getCouponBtn.layer.cornerRadius = 20
-        if !active {
-            instructionText.isHidden = !active
-        }
         
     }
 
@@ -93,6 +85,52 @@ class offerTableViewCell:UITableViewCell{
     
     func setOfferDetail(detail:String){
         self.offerText.text = detail
+        self.setNeedsLayout()
+    }
+}
+
+class imagesTableViewCell:UITableViewCell{
+    
+    let itemInRow: CGFloat = 3
+    let itemMargins: CGFloat = 1
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        let layout = UICollectionViewFlowLayout()
+        let itemWidth = self.collectionView.frame.size.width/3.05
+        layout.sectionInset = UIEdgeInsets.init(top: itemMargins, left: itemMargins, bottom: itemMargins, right: 0)
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 0
+        layout.scrollDirection = UICollectionViewScrollDirection.vertical
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+        self.collectionView.collectionViewLayout = layout
+    }
+    
+    func setCollectionDelegate(delegate: UICollectionViewDelegate, datasource: UICollectionViewDataSource){
+        self.collectionView.delegate = delegate
+        self.collectionView.dataSource = datasource
+    }
+    
+    func getHeight() -> CGFloat{
+        return self.frame.width
+    }
+    
+}
+
+class imageCollectionViewCell:UICollectionViewCell{
+    
+    @IBOutlet weak var thumbnail: UIImageView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+    
+    func setImage(image:UIImage){
+        self.thumbnail.image = image
         self.setNeedsLayout()
     }
 }
