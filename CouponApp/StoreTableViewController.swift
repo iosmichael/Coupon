@@ -12,13 +12,16 @@ class StoreTableViewController: UITableViewController, UICollectionViewDataSourc
     
     var otherOffer: [Item] = []
     
-    var storeImages: [UIImage] = [UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!]
+    var storeImages: [UIImage] = []
     
     var store:Store?
+    
+    let numberOfStoreImages = 9
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.separatorStyle = .none
+        setupOtherOffers()
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,12 +61,25 @@ class StoreTableViewController: UITableViewController, UICollectionViewDataSourc
             cell.setCollectionDelegate(delegate: self, datasource: self)
             return cell
         }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "otherOffer", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "otherOffer", for: indexPath) as! OtherOfferTableViewCell
             cell.selectionStyle = .none
+            let item = otherOffer[indexPath.row]
+            cell.setTitle(offerTitle: item.title, date: item.date)
             return cell
         }
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 3 {
+            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+            let viewController = storyboard.instantiateViewController(withIdentifier: "couponView") as! CouponTableViewController
+            viewController.coupon = otherOffer[indexPath.row]
+            viewController.coupon?.store = self.store
+            viewController.isFromOtherOffer = true
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return StoreTitleTableViewCell.getHeight()
@@ -90,7 +106,7 @@ class StoreTableViewController: UITableViewController, UICollectionViewDataSourc
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel.init(frame: CGRect.init(x: 8, y: 2.5, width: 300, height: 20))
+        let label = UILabel.init(frame: CGRect.init(x: 8, y: 5, width: 300, height: 20))
         label.font = UIFont.init(name: "HelveticaNeue", size: 15)
         label.textColor = UIColor.lightGray
         if section == 1 {
@@ -108,9 +124,31 @@ class StoreTableViewController: UITableViewController, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "image", for: indexPath) as! imageCollectionViewCell
-        let image = storeImages[indexPath.item]
-        cell.setImage(image: image)
+        if indexPath.item < storeImages.count {
+            let image = storeImages[indexPath.item]
+            cell.setImage(image: image)
+        }else{
+            let image = UIImage.init(named: "t1")!
+            cell.setImage(image: image)
+        }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if store?.imagesURL != nil && indexPath.item < (store?.imagesURL.count)! && storeImages.count <= indexPath.item {
+            DispatchQueue.global().async {
+                if let url = NSURL(string: (self.store?.imagesURL[indexPath.item])!) {
+                    if let data = NSData(contentsOf: url as URL) {
+                        let storeImg = UIImage.init(data: data as Data!)
+                        let imageCell:imageCollectionViewCell = cell as! imageCollectionViewCell
+                        self.storeImages.insert(storeImg!, at: 0)
+                        DispatchQueue.main.async {
+                            imageCell.setImage(image: storeImg!)
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -118,7 +156,7 @@ class StoreTableViewController: UITableViewController, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return storeImages.count
+        return numberOfStoreImages
     }
     
     func presentImagePicker(indexPath:IndexPath){
@@ -126,5 +164,13 @@ class StoreTableViewController: UITableViewController, UICollectionViewDataSourc
         presentImageC.images = storeImages
         presentImageC.currentPage = indexPath.item
         present(presentImageC, animated: true, completion: nil)
+    }
+    
+    func setupOtherOffers(){
+        let itemManager = ItemManager()
+        itemManager.getOtherOffers(storeId: (store?.uid)!).observe(.value, with: { (snapshot) in
+            self.otherOffer = itemManager.getItems(snapshot: snapshot)
+            self.tableView.reloadData()
+        })
     }
 }

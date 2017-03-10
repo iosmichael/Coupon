@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import Firebase
 
 class HomeTableViewController: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var categories = [("Rest","amazon"),("Homemade","amazon"),("Rest","amazon"),("Homemade","amazon"),("Rest","amazon")]
+    var categories:[(String,String)] = []
+    var categoryImages:[UIImage] = []
+    var categoryCollectionView: UICollectionView?
     var countdowns:[CountdownLabel] = []
     
     var switchIndex = 0
@@ -26,8 +29,9 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
         self.tableView.register(UINib.init(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: "Item")
         self.tableView.register(UINib.init(nibName: "StoreTableViewCell", bundle: nil), forCellReuseIdentifier: "Store")
         self.tableView.register(UINib.init(nibName: "CategoryTableViewCell", bundle: nil), forCellReuseIdentifier: "Category")
+        setupCategories()
         setupCountdownLabels()
-        let headerView = HomePageSlideView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 375 * 150))
+        let headerView = HomePageSlideView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 375 * 163))
         headerView.setupScrollView(images: [UIImage.init(named: "banner")!,UIImage.init(named: "banner")!,UIImage.init(named: "banner")!], labels: countdowns, currentPage: 0)
         self.tableView.tableHeaderView = headerView
         self.tableView.separatorStyle = .none
@@ -81,6 +85,7 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
+            if categories.count == 0 { return 0 }
             return CategoryTableViewCell.getHeight()
         }else{
             return switchIndex == 0 ? ItemTableViewCell.getHeight() : StoreTableViewCell.getHeight()
@@ -92,6 +97,7 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Category", for: indexPath) as! CategoryTableViewCell
             cell.selectionStyle = .none
+            self.categoryCollectionView = cell.collectionView
             return cell
         }
         //Item
@@ -177,8 +183,23 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "category", for: indexPath) as! CategoryCollectionViewCell
-        let (name, imageName) = categories[indexPath.item]
-        cell.setCategoryCell(icon: UIImage.init(named: imageName)!, title: name)
+        let (name, imageURL) = categories[indexPath.item]
+        cell.setCategoryCellTitle(title: name)
+        if indexPath.item < categoryImages.count {
+            cell.setCategoryCell(icon: UIImage.init(named: "amazon")!)
+        }else{
+            DispatchQueue.global().async {
+                if let url = NSURL(string: imageURL) {
+                    if let data = NSData(contentsOf: url as URL) {
+                        let catImg = UIImage.init(data: data as Data!)
+                        self.categoryImages.insert(catImg!, at: 0)
+                        DispatchQueue.main.async {
+                            cell.setCategoryCell(icon: catImg!)
+                        }
+                    }
+                }
+            }
+        }
         return cell
     }
     
@@ -212,10 +233,10 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
     func setupElement(){
         let screenBounds = UIScreen.main.bounds
         runkeeperSwitch = DGRunkeeperSwitch(titles: ["Offers", "Stores"])
-        runkeeperSwitch?.backgroundColor = UIColor.init(red: 255/255.0, green: 179/255.0, blue: 0/255.0, alpha: 1)
+        runkeeperSwitch?.backgroundColor = UIColor.init(red: 90/255.0, green: 90/255.0, blue: 90/255.0, alpha: 1)
         runkeeperSwitch?.selectedBackgroundColor = .white
         runkeeperSwitch?.titleColor = .white
-        runkeeperSwitch?.selectedTitleColor = UIColor.init(red: 255/255.0, green: 179/255.0, blue: 0/255.0, alpha: 1)
+        runkeeperSwitch?.selectedTitleColor = UIColor.init(red: 90/255.0, green: 90/255.0, blue: 90/255.0, alpha: 1)
         runkeeperSwitch?.titleFont = UIFont(name: "HelveticaNeue-Medium", size: 16.0)
         runkeeperSwitch?.frame = CGRect(x: (screenBounds.width - 250)/2.0, y: 5, width: 250.0, height: 35.0)
         runkeeperSwitch?.addTarget(self, action: #selector(switchValueDidChange(sender:)), for: .valueChanged)
@@ -233,6 +254,21 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
         view.addSubview(searchButton!)
         view.addSubview(runkeeperSwitch!)
         return view
+    }
+    
+    func setupCategories(){
+        let configManager = ConfigManager()
+        let storage = FIRStorage.storage()
+        configManager.getCategories { (categories) in
+            for category in categories{
+                let gsReference = storage.reference(withPath: "categories/"+category+"-icon.png")
+                gsReference.downloadURL(completion: { (url, error) in
+                    self.categories.insert((category,(url?.absoluteString)!), at: 0)
+                    self.tableView.reloadData()
+                    self.categoryCollectionView?.reloadData()
+                })
+            }
+        }
     }
     
     func setupDatabase(){

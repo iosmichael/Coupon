@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1Bc-xk-hLp" customClass="CouponModalView" customModule="CouponApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="300"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ModalView" translatesAutoresizingMaskIntoConstraints="NO" id="F4s-Sb-InJ">
+                    <rect key="frame" x="0.0" y="0.0" width="280" height="300"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bg7-XC-VO5">
+                            <rect key="frame" x="0.0" y="240" width="280" height="60"/>
+                            <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="oFd-P4-heW"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                            <state key="normal" title="Close">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="closeBtnClicked:" destination="1Bc-xk-hLp" eventType="touchUpInside" id="stp-cV-ydH"/>
+                            </connections>
+                        </button>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="amazon" translatesAutoresizingMaskIntoConstraints="NO" id="isi-Xt-TdW">
+                            <rect key="frame" x="103" y="35" width="80" height="80"/>
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="80" id="1k0-nx-DrV"/>
+                                <constraint firstAttribute="width" constant="80" id="Zzd-VV-wNZ"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congratulation!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X9A-kL-TOq">
+                            <rect key="frame" x="0.0" y="125" width="280" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="25" id="1Q7-t8-Rn5"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Show this to Cashier and Enjoy 20% Off" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="190" translatesAutoresizingMaskIntoConstraints="NO" id="Cwb-zg-9Et">
+                            <rect key="frame" x="25" y="150" width="230" height="42"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="42" id="9gN-ID-Lye"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Cwb-zg-9Et" firstAttribute="leading" secondItem="F4s-Sb-InJ" secondAttribute="leading" constant="25" id="1dY-Za-4Jw"/>
+                        <constraint firstAttribute="trailing" secondItem="bg7-XC-VO5" secondAttribute="trailing" id="FPS-03-Set"/>
+                        <constraint firstItem="Cwb-zg-9Et" firstAttribute="top" secondItem="X9A-kL-TOq" secondAttribute="bottom" id="GeD-u0-YWi"/>
+                        <constraint firstAttribute="centerX" secondItem="isi-Xt-TdW" secondAttribute="centerX" constant="-3" id="Q9y-E6-54r"/>
+                        <constraint firstItem="bg7-XC-VO5" firstAttribute="leading" secondItem="F4s-Sb-InJ" secondAttribute="leading" id="V7X-ZK-nHI"/>
+                        <constraint firstAttribute="trailing" secondItem="Cwb-zg-9Et" secondAttribute="trailing" constant="25" id="XCe-oj-Egi"/>
+                        <constraint firstItem="isi-Xt-TdW" firstAttribute="top" secondItem="F4s-Sb-InJ" secondAttribute="top" constant="35" id="YmS-Jq-62b"/>
+                        <constraint firstAttribute="trailing" secondItem="X9A-kL-TOq" secondAttribute="trailing" id="dco-6w-6rE"/>
+                        <constraint firstAttribute="bottom" secondItem="bg7-XC-VO5" secondAttribute="bottom" id="u4D-cO-kSQ"/>
+                        <constraint firstItem="X9A-kL-TOq" firstAttribute="leading" secondItem="F4s-Sb-InJ" secondAttribute="leading" id="vgq-67-1sd"/>
+                        <constraint firstItem="X9A-kL-TOq" firstAttribute="top" secondItem="isi-Xt-TdW" secondAttribute="bottom" constant="10" id="yJ4-PB-uXM"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="F4s-Sb-InJ" firstAttribute="top" secondItem="1Bc-xk-hLp" secondAttribute="top" id="Tat-ZC-u80"/>
+                <constraint firstItem="F4s-Sb-InJ" firstAttribute="leading" secondItem="1Bc-xk-hLp" secondAttribute="leading" id="f75-fE-ZxH"/>
+                <constraint firstAttribute="bottom" secondItem="F4s-Sb-InJ" secondAttribute="bottom" id="tmR-iC-BbM"/>
+                <constraint firstAttribute="trailing" secondItem="F4s-Sb-InJ" secondAttribute="trailing" id="wRA-69-yeY"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-34" y="61"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="amazon" width="55" height="54"/>
+    </resources>
+</document>

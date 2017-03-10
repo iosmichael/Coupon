@@ -169,7 +169,7 @@
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eb4-yl-kxJ">
                                                     <rect key="frame" x="45.5" y="22.5" width="33.5" height="18"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -270,6 +270,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="timesOfUsageLabel" destination="eb4-yl-kxJ" id="d17-QY-Kpi"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="images" rowHeight="88" id="2f9-Pc-EDh" customClass="imagesTableViewCell" customModule="CouponApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="393" width="375" height="88"/>
@@ -339,7 +342,7 @@
             </objects>
             <point key="canvasLocation" x="3253.5999999999999" y="-322.48875562218893"/>
         </scene>
-        <!--Search View Controller-->
+        <!--Search-->
         <scene sceneID="CJl-sU-CdY">
             <objects>
                 <viewController storyboardIdentifier="search" id="L5i-fM-Klt" customClass="SearchViewController" customModule="CouponApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -348,11 +351,11 @@
                         <viewControllerLayoutGuide type="bottom" id="km8-Gq-1OG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MLi-8v-bnT">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="SRB-jG-5C8">
-                                <rect key="frame" x="0.0" y="20" width="375" height="45"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="KEU-Ex-CMg"/>
@@ -361,7 +364,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jr9-eg-RD0">
-                                <rect key="frame" x="0.0" y="65" width="375" height="602"/>
+                                <rect key="frame" x="0.0" y="45" width="375" height="558"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
@@ -376,7 +379,8 @@
                             <constraint firstItem="Jr9-eg-RD0" firstAttribute="bottom" secondItem="km8-Gq-1OG" secondAttribute="top" id="zKj-BR-UVu"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="6PJ-mc-wHj"/>
+                    <navigationItem key="navigationItem" title="Search" id="6PJ-mc-wHj"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="searchBar" destination="SRB-jG-5C8" id="IKw-UT-EO2"/>
                         <outlet property="tableView" destination="Jr9-eg-RD0" id="XM9-3w-CTZ"/>
@@ -386,7 +390,7 @@
             </objects>
             <point key="canvasLocation" x="1596" y="376"/>
         </scene>
-        <!--Category View Controller-->
+        <!--Category-->
         <scene sceneID="eba-w9-C6I">
             <objects>
                 <viewController storyboardIdentifier="category" id="Cxi-8f-so1" customClass="CategoryViewController" customModule="CouponApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -395,18 +399,18 @@
                         <viewControllerLayoutGuide type="bottom" id="dOh-Tg-qb3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Fpf-tU-qMy">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="uZM-nP-mPb">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="ZN9-Qj-ABI"/>
                                 </constraints>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EpM-Pe-5E1">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
@@ -421,6 +425,8 @@
                             <constraint firstAttribute="trailing" secondItem="EpM-Pe-5E1" secondAttribute="trailing" id="Tk5-YK-y9p"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Category" id="AUJ-7j-PiJ"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="searchBar" destination="uZM-nP-mPb" id="b5G-LT-0ZY"/>
                         <outlet property="tableView" destination="EpM-Pe-5E1" id="VYk-zx-4Rl"/>
@@ -590,7 +596,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="amazon" translatesAutoresizingMaskIntoConstraints="NO" id="KFv-tr-Is7">
-                                            <rect key="frame" x="8" y="9.5" width="55" height="55"/>
+                                            <rect key="frame" x="8" y="10" width="55" height="55"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="55" id="1hd-DI-15w"/>
                                                 <constraint firstAttribute="height" constant="55" id="Y9I-GA-UuR"/>
@@ -603,7 +609,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shopping &amp; Clothing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="845-qK-0Im">
-                                            <rect key="frame" x="71" y="40" width="296" height="21.5"/>
+                                            <rect key="frame" x="71" y="40" width="296" height="22"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -654,6 +660,10 @@
                                         <constraint firstItem="wr5-QQ-V1i" firstAttribute="trailing" secondItem="sHS-q3-6Rn" secondAttribute="trailingMargin" id="ZSs-ha-iM4"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="date" destination="BdW-6P-UED" id="kI7-b4-udu"/>
+                                    <outlet property="offerTitle" destination="wr5-QQ-V1i" id="uEJ-Kb-81D"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="images" rowHeight="77" id="qRn-CG-r0m" customClass="imagesTableViewCell" customModule="CouponApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="181" width="375" height="77"/>
@@ -802,7 +812,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="amazon" width="55" height="54"/>
+        <image name="amazon" width="45" height="45"/>
         <image name="circle" width="79" height="79"/>
         <image name="getBtn" width="214" height="43"/>
         <image name="home" width="20" height="17"/>

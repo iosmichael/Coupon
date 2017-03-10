@@ -125,6 +125,8 @@ class toolsTableViewCell:UITableViewCell{
     
     static let height:CGFloat = 75
     
+    @IBOutlet weak var timesOfUsageLabel: UILabel!
+    
     var delegate:toolsTableViewCellDelegate?
     
     override func awakeFromNib() {
@@ -144,6 +146,10 @@ class toolsTableViewCell:UITableViewCell{
     
     class func getHeight() -> CGFloat{
         return height
+    }
+    
+    func setUsage(uses:String){
+        self.timesOfUsageLabel.text = uses
     }
     
     @IBAction func storeClicked(_ sender: Any) {

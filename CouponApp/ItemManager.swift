@@ -25,6 +25,29 @@ class ItemManager: NSObject {
         return (itemRef?.queryLimited(toLast: UInt(limit)).queryOrdered(byChild: "name").queryStarting(atValue: query))!
     }
     
+    func getOtherOffers(storeId: String)->FIRDatabaseQuery{
+        return (itemRef?.queryOrdered(byChild: "storeId").queryEqual(toValue: storeId))!
+    }
+    
+    func incrementUses(itemId:String){
+        let ref = itemRef?.child(itemId)
+        ref?.runTransactionBlock({ (currentData: FIRMutableData) -> FIRTransactionResult in
+            if var item = currentData.value as? [String : AnyObject] {
+                var uses = item["uses"] as? Int ?? 0
+                uses += 1
+                item["uses"] = uses as AnyObject?
+                // Set value and report transaction success
+                currentData.value = item
+                return FIRTransactionResult.success(withValue: currentData)
+            }
+            return FIRTransactionResult.success(withValue: currentData)
+        }) { (error, committed, snapshot) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     public func getItems(snapshot:FIRDataSnapshot)->[Item]{
         var items = [Item]()
         for child:FIRDataSnapshot in snapshot.children.allObjects as! [FIRDataSnapshot]{
@@ -53,6 +76,17 @@ class ItemManager: NSObject {
                     break
                 case "storeThumbnail":
                     store.thumbnail = elem.value as! String!
+                    break
+                case "storeDetail":
+                    store.detail = elem.value as! String!
+                    break
+                case "images":
+                    for url in elem.value as! [String:String] {
+                        store.imagesURL.insert(url.value, at: 0)
+                    }
+                    break
+                case "uses":
+                    item.uses = elem.value as? Int ?? 0
                     break
                 default:
                     break

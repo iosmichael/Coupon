@@ -11,13 +11,14 @@ import MapKit
 
 class CouponTableViewController: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource, toolsTableViewCellDelegate, CountDownTableViewCellDelegate {
     
-    let numberOfSection = 6
+    let numberOfSection = 5
 
     var isFromOtherOffer = false
     
     var coupon:Item?
     var timer:CountdownLabel?
-    var storeImages: [UIImage] = [UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!]
+    var storeImages: [UIImage] = []
+    let numberOfStoreImages = 9
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,15 +73,12 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
             let cell = tableView.dequeueReusableCell(withIdentifier: "tools") as! toolsTableViewCell
             cell.selectionStyle = .none
             cell.setDelegate(delegate: self)
+            cell.setUsage(uses: "\((coupon?.uses)!)")
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "images") as! imagesTableViewCell
             cell.selectionStyle = .none
             cell.setCollectionDelegate(delegate: self, datasource: self)
-            return cell
-        case 5:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "info") as! infoTableViewCell
-            cell.selectionStyle = .none
             return cell
         //will never get here
         default: return UITableViewCell()
@@ -88,7 +86,7 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.section == 5 {
+        if indexPath.section == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "images") as! imagesTableViewCell
             cell.setCollectionDelegate(delegate: self, datasource: self)
         }
@@ -118,9 +116,6 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
         //Offer Detail Header
         case 2:
             return 25
-        //Info Detail Header
-        case 5:
-            return 25
         default:
             return 0
         }
@@ -132,8 +127,6 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
         label.textColor = UIColor.lightGray
         if section == 2 {
             label.text = "OFFER DETAIL"
-        }else if section == 5{
-            label.text = "INFO"
         }
         let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 25))
         view.addSubview(label)
@@ -145,9 +138,32 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "image", for: indexPath) as! imageCollectionViewCell
-        let image = storeImages[indexPath.item]
-        cell.setImage(image: image)
+        if indexPath.item < storeImages.count {
+            let image = storeImages[indexPath.item]
+            cell.setImage(image: image)
+        }else{
+            let image = UIImage.init(named: "t1")!
+            cell.setImage(image: image)
+        }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if coupon?.store?.imagesURL != nil && indexPath.item < (coupon?.store?.imagesURL.count)! && storeImages.count <= indexPath.item {
+            DispatchQueue.global().async {
+                if let url = NSURL(string: (self.coupon?.store?.imagesURL[indexPath.item])!) {
+                    if let data = NSData(contentsOf: url as URL) {
+                        let storeImg = UIImage.init(data: data as Data!)
+                        let imageCell:imageCollectionViewCell = cell as! imageCollectionViewCell
+                        self.storeImages.insert(storeImg!, at: 0)
+                        DispatchQueue.main.async {
+                            imageCell.setImage(image: storeImg!)
+                        }
+                    }
+                }
+            }
+        }
+
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -155,7 +171,7 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return storeImages.count
+        return numberOfStoreImages
     }
     
     func presentImagePicker(indexPath:IndexPath){
@@ -192,6 +208,10 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
     }
     
     func storeBtnClicked() {
+        if isFromOtherOffer {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let storeController = storyboard.instantiateViewController(withIdentifier: "storeDetail") as! StoreTableViewController
         storeController.store = self.coupon?.store
@@ -200,6 +220,15 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
     
     func getCouponBtnClicked() {
         print ("Get Coupon")
+        let view = CouponModalView.instantiateFromNib()
+        let window = UIApplication.shared.delegate?.window
+        let modal = PopupModal.show(modalView: view, inView: window!!)
+        view.closeButtonHandler = {[weak modal] in
+            modal?.closeWithLeansRandom()
+            return
+        }
+        let itemManager = ItemManager()
+        itemManager.incrementUses(itemId: (coupon?.uid)!)
     }
     
 

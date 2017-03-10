@@ -62,6 +62,9 @@
 		9EF8F2C51E71F6D9001F8565 /* PopupModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF8F2C41E71F6D9001F8565 /* PopupModal.swift */; };
 		9EF8F2C71E721614001F8565 /* ImagePresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF8F2C61E721614001F8565 /* ImagePresenterViewController.swift */; };
 		9EF8F2C91E721C9C001F8565 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF8F2C81E721C9C001F8565 /* CategoryViewController.swift */; };
+		9EF8F2CB1E7269B0001F8565 /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF8F2CA1E7269B0001F8565 /* ConfigManager.swift */; };
+		9EF8F2CF1E727D96001F8565 /* CouponModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF8F2CE1E727D96001F8565 /* CouponModalView.swift */; };
+		9EF8F2D11E727DD0001F8565 /* CouponModalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EF8F2D01E727DD0001F8565 /* CouponModalView.xib */; };
 		B08EC22A18DBF5154F4C90BE /* Pods_CouponApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADDA4161B35C886CB54AEF4C /* Pods_CouponApp.framework */; };
 		E5F1C4C6DE96EFDB53ACF435 /* Pods_CouponAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD5DD114997454088B983B7B /* Pods_CouponAppTests.framework */; };
 /* End PBXBuildFile section */
@@ -150,6 +153,9 @@
 		9EF8F2C41E71F6D9001F8565 /* PopupModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupModal.swift; sourceTree = "<group>"; };
 		9EF8F2C61E721614001F8565 /* ImagePresenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePresenterViewController.swift; sourceTree = "<group>"; };
 		9EF8F2C81E721C9C001F8565 /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		9EF8F2CA1E7269B0001F8565 /* ConfigManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigManager.swift; sourceTree = "<group>"; };
+		9EF8F2CE1E727D96001F8565 /* CouponModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponModalView.swift; sourceTree = "<group>"; };
+		9EF8F2D01E727DD0001F8565 /* CouponModalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CouponModalView.xib; sourceTree = "<group>"; };
 		ADDA4161B35C886CB54AEF4C /* Pods_CouponApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CouponApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFD28A4D8B58335EF2BFBC1D /* Pods-CouponAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CouponAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CouponAppUITests/Pods-CouponAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C93CE92EE08F5DAE2D33CA13 /* Pods-CouponApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CouponApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-CouponApp/Pods-CouponApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -274,6 +280,8 @@
 				9EC52D481E6CC5F200DD2664 /* UsageTableViewCell.swift */,
 				9EC52D4A1E6CC6E500DD2664 /* MessageTableViewCell.swift */,
 				9E3C181A1E6FE00600006CF3 /* StoreDetailTableViewCell.swift */,
+				9EF8F2CE1E727D96001F8565 /* CouponModalView.swift */,
+				9EF8F2D01E727DD0001F8565 /* CouponModalView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -306,6 +314,7 @@
 			children = (
 				9EC52D611E6D467B00DD2664 /* ItemManager.swift */,
 				9EC52D631E6D468700DD2664 /* StoreManager.swift */,
+				9EF8F2CA1E7269B0001F8565 /* ConfigManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -519,6 +528,7 @@
 				9EC52D511E6CCA8000DD2664 /* default.xcassets in Resources */,
 				9EF8F2BF1E7106A3001F8565 /* Fragment.png in Resources */,
 				9EC52D431E6CC16500DD2664 /* StoreTableViewCell.xib in Resources */,
+				9EF8F2D11E727DD0001F8565 /* CouponModalView.xib in Resources */,
 				9EF8F28D1E70FE5C001F8565 /* CategoryTableViewCell.xib in Resources */,
 				9EF8F2C11E7106A3001F8565 /* Sparkle.png in Resources */,
 				9EC52D121E6CBE2100DD2664 /* LaunchScreen.storyboard in Resources */,
@@ -695,6 +705,7 @@
 				9EC52D581E6D29CF00DD2664 /* HomeTableViewController.swift in Sources */,
 				9EC52D471E6CC32500DD2664 /* HomePageSlideView.swift in Sources */,
 				9EF8F2B41E710691001F8565 /* LTMorphingLabel+Fall.swift in Sources */,
+				9EF8F2CF1E727D96001F8565 /* CouponModalView.swift in Sources */,
 				9EF8F2C71E721614001F8565 /* ImagePresenterViewController.swift in Sources */,
 				9EF8F2AC1E710691001F8565 /* LTCharacterDiffResult.swift in Sources */,
 				9EC52D491E6CC5F200DD2664 /* UsageTableViewCell.swift in Sources */,
@@ -713,6 +724,7 @@
 				9EC52D061E6CBE2100DD2664 /* AppDelegate.swift in Sources */,
 				9EF8F2B61E710691001F8565 /* LTMorphingLabel+Sparkle.swift in Sources */,
 				9EF8F2B01E710691001F8565 /* LTMorphingEffect.swift in Sources */,
+				9EF8F2CB1E7269B0001F8565 /* ConfigManager.swift in Sources */,
 				9EF8F2AF1E710691001F8565 /* LTEmitterView.swift in Sources */,
 				9EF8F28C1E70FE5C001F8565 /* CategoryTableViewCell.swift in Sources */,
 				9EC52D641E6D468700DD2664 /* StoreManager.swift in Sources */,

@@ -51,10 +51,10 @@ class MessageTableViewController: UITableViewController {
         let screenBounds:CGRect = self.view.frame
         let sectionView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: screenBounds.width, height: 50))
         sectionView.backgroundColor = .white
-        let imageView = UIImageView.init(frame: CGRect.init(x: 15, y: 15, width: 24, height: 20))
-        imageView.image = UIImage.init(named: "message")!
-        let labelText = UILabel.init(frame: CGRect.init(x: 15 * 2 + 24, y: 10, width: screenBounds.width, height: 30))
-        labelText.text = "Messages"
+        let imageView = UIImageView.init(frame: CGRect.init(x: 15, y: 13, width: 22, height: 24))
+        imageView.image = UIImage.init(named: "story")!
+        let labelText = UILabel.init(frame: CGRect.init(x: 15 * 2 + 22, y: 10, width: screenBounds.width, height: 30))
+        labelText.text = "Stories"
         labelText.textColor = .black
         labelText.font = UIFont.init(name: "HelveticaNeue-Medium", size: 23)
         sectionView.addSubview(imageView)

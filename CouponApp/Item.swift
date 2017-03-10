@@ -16,4 +16,5 @@ class Item: NSObject {
     var numberOfUses: NSInteger = 0
     var availability:String = ""
     var uid:String = ""
+    var uses: Int = 0
 }

@@ -34,6 +34,10 @@ class StoreDetailTableViewCell: UITableViewCell {
 
 class OtherOfferTableViewCell: UITableViewCell {
     static let height:CGFloat = 77
+    
+    @IBOutlet weak var offerTitle: UILabel!
+    @IBOutlet weak var date: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -42,6 +46,12 @@ class OtherOfferTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
+    }
+    
+    func setTitle(offerTitle:String, date:String){
+        self.offerTitle.text = offerTitle
+        self.date.text = date
+        self.setNeedsLayout()
     }
     
     class func getHeight() -> CGFloat{
@@ -61,6 +71,10 @@ class StoreTitleTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.thumbnail.layer.cornerRadius = self.thumbnail.frame.width/2
+        self.thumbnail.layer.borderColor = UIColor.black.cgColor
+        self.thumbnail.layer.borderWidth = 1
+        self.thumbnail.clipsToBounds = true
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

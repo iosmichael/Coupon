@@ -16,15 +16,18 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-    }
-    
-    func setCategoryCell(icon:UIImage, title:String){
-        self.thumbnail.image = icon
         self.thumbnail.layer.cornerRadius = self.thumbnail.frame.width/2
         self.thumbnail.layer.masksToBounds = true
         self.thumbnail.layer.borderWidth = 1
         self.thumbnail.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    func setCategoryCellTitle(title:String){
         self.title.text = title
+    }
+    
+    func setCategoryCell(icon:UIImage){
+        self.thumbnail.image = icon
         self.setNeedsLayout()
     }
 
