@@ -20,9 +20,10 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     func setCategoryCell(icon:UIImage, title:String){
         self.thumbnail.image = icon
-        //Make the thumbnail a circle with cornerRadius half of its height: 50
-        self.thumbnail.layer.cornerRadius = 25
-        self.thumbnail.clipsToBounds = true
+        self.thumbnail.layer.cornerRadius = self.thumbnail.frame.width/2
+        self.thumbnail.layer.masksToBounds = true
+        self.thumbnail.layer.borderWidth = 1
+        self.thumbnail.layer.borderColor = UIColor.black.cgColor
         self.title.text = title
         self.setNeedsLayout()
     }

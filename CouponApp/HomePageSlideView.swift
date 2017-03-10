@@ -56,6 +56,34 @@ class HomePageSlideView: UIView, UIScrollViewDelegate {
         setupPageIndex(currentPage: currentPage)
     }
     
+    func setupScrollView(images: [UIImage], labels:[UILabel], currentPage: Int){
+        scrollView = UIScrollView.init(frame: frame)
+        scrollView?.contentSize = CGSize.init(width: frame.size.width * CGFloat(images.count), height: 0)
+        for i:Int in 0...images.count-1{
+            var image: UIImage?
+            if i > images.count - 1 {
+                image = UIImage.init(named: "banner")
+            }else{
+                image = images[i]
+            }
+            let imageView: UIImageView = UIImageView.init(frame: CGRect.init(x: 0 + frame.size.width * CGFloat(i), y: 0, width: frame.size.width, height: frame.size.height))
+            imageView.image = image
+            let label = labels[i]
+            let labelFrame:CGRect = label.frame
+            let labelNewFrame:CGRect = CGRect.init(x: self.frame.width - labelFrame.width + frame.size.width * CGFloat(i), y: self.frame.height - labelFrame.height, width: labelFrame.width, height: labelFrame.height)
+            label.frame = labelNewFrame
+            scrollView?.addSubview(imageView)
+            scrollView?.addSubview(label)
+        }
+        self.scrollView?.isPagingEnabled = true
+        self.scrollView?.isScrollEnabled = true
+        self.scrollView?.showsHorizontalScrollIndicator = false
+        self.scrollView?.showsVerticalScrollIndicator = false
+        scrollView?.bounces = false
+        scrollView?.delegate = self;
+        setupPageIndex(currentPage: currentPage)
+    }
+    
     func changePage(){
         let pageWidth = scrollView?.frame.size.width
         if pageIndex?.currentPage ==  images.count - 1 {

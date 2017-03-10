@@ -20,7 +20,9 @@ class ItemTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.thumbnail.layer.cornerRadius = 8
+        self.thumbnail.layer.cornerRadius = self.thumbnail.frame.width/2
+        self.thumbnail.layer.borderColor = UIColor.black.cgColor
+        self.thumbnail.layer.borderWidth = 1
         self.thumbnail.clipsToBounds = true
     }
 

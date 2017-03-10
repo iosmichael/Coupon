@@ -8,9 +8,11 @@
 
 import UIKit
 
-class StoreTableViewController: UITableViewController {
+class StoreTableViewController: UITableViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var otherOffer: [Item] = []
+    
+    var storeImages: [UIImage] = [UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!,UIImage.init(named: "t1")!]
     
     var store:Store?
 
@@ -32,24 +34,32 @@ class StoreTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 || section == 1 ? 1 : otherOffer.count
+        return section == 3 ? otherOffer.count : 1
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "store", for: indexPath) as! StoreTitleTableViewCell
+            cell.selectionStyle = .none
             cell.setStore(store: store!)
             return cell
         }else if indexPath.section == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "detail", for: indexPath) as! StoreDetailTableViewCell
+            cell.selectionStyle = .none
             cell.setDetail(detail: (store?.detail)!)
+            return cell
+        }else if indexPath.section == 2{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "images", for: indexPath) as! imagesTableViewCell
+            cell.selectionStyle = .none
+            cell.setCollectionDelegate(delegate: self, datasource: self)
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "otherOffer", for: indexPath)
+            cell.selectionStyle = .none
             return cell
         }
     }
@@ -59,6 +69,8 @@ class StoreTableViewController: UITableViewController {
             return StoreTitleTableViewCell.getHeight()
         }else if indexPath.section == 1{
             return StoreDetailTableViewCell.getHeight()
+        }else if indexPath.section == 2{
+            return tableView.frame.width
         }else{
             return OtherOfferTableViewCell.getHeight()
         }
@@ -70,7 +82,7 @@ class StoreTableViewController: UITableViewController {
         case 1:
             return 25
         //Other Offer Detail Header
-        case 2:
+        case 3:
             return 25
         default:
             return 0
@@ -83,7 +95,7 @@ class StoreTableViewController: UITableViewController {
         label.textColor = UIColor.lightGray
         if section == 1 {
             label.text = "STORE DETAIL"
-        }else if section == 2 {
+        }else if section == 3 {
             label.text = "OTHER OFFER"
         }
         let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 25))
@@ -92,5 +104,27 @@ class StoreTableViewController: UITableViewController {
         return view
     }
 
+    //Collection Delegate
     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "image", for: indexPath) as! imageCollectionViewCell
+        let image = storeImages[indexPath.item]
+        cell.setImage(image: image)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presentImagePicker(indexPath: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return storeImages.count
+    }
+    
+    func presentImagePicker(indexPath:IndexPath){
+        let presentImageC = ImagePresenterViewController()
+        presentImageC.images = storeImages
+        presentImageC.currentPage = indexPath.item
+        present(presentImageC, animated: true, completion: nil)
+    }
 }

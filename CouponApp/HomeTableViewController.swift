@@ -8,7 +8,10 @@
 
 import UIKit
 
-class HomeTableViewController: UITableViewController {
+class HomeTableViewController: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    var categories = [("Rest","amazon"),("Homemade","amazon"),("Rest","amazon"),("Homemade","amazon"),("Rest","amazon")]
+    var countdowns:[CountdownLabel] = []
     
     var switchIndex = 0
     var itemData:[Item] = []
@@ -22,9 +25,12 @@ class HomeTableViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.register(UINib.init(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: "Item")
         self.tableView.register(UINib.init(nibName: "StoreTableViewCell", bundle: nil), forCellReuseIdentifier: "Store")
-        let headerView = HomePageSlideView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 375 * 127))
-        headerView.setupScrollView(images: [UIImage.init(named: "banner")!,UIImage.init(named: "banner")!,UIImage.init(named: "banner")!], currentPage: 0)
+        self.tableView.register(UINib.init(nibName: "CategoryTableViewCell", bundle: nil), forCellReuseIdentifier: "Category")
+        setupCountdownLabels()
+        let headerView = HomePageSlideView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 375 * 150))
+        headerView.setupScrollView(images: [UIImage.init(named: "banner")!,UIImage.init(named: "banner")!,UIImage.init(named: "banner")!], labels: countdowns, currentPage: 0)
         self.tableView.tableHeaderView = headerView
+        self.tableView.separatorStyle = .none
         self.setupElement()
         self.setupDatabase()
     }
@@ -58,22 +64,36 @@ class HomeTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if switchIndex == 0 {
-            return itemData.count
+        if section == 0{
+            return 1
         }else{
-            return storeData.count
+            if switchIndex == 0 {
+                return itemData.count
+            }else{
+                return storeData.count
+            }
         }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return switchIndex == 0 ? ItemTableViewCell.getHeight() : StoreTableViewCell.getHeight()
+        if indexPath.section == 0 {
+            return CategoryTableViewCell.getHeight()
+        }else{
+            return switchIndex == 0 ? ItemTableViewCell.getHeight() : StoreTableViewCell.getHeight()
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Category", for: indexPath) as! CategoryTableViewCell
+            cell.selectionStyle = .none
+            return cell
+        }
         //Item
         if switchIndex == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "Item", for: indexPath) as! ItemTableViewCell
@@ -93,33 +113,38 @@ class HomeTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if switchIndex == 0{
-            let item = itemData[indexPath.row]
-            let itemCell: ItemTableViewCell = cell as! ItemTableViewCell
-            if item.store?.thumbnail != nil {
-                DispatchQueue.global().async {
-                    if let url = NSURL(string: (item.store?.thumbnail)!) {
-                        if let data = NSData(contentsOf: url as URL) {
-                            let thumbnailImg = UIImage.init(data: data as Data!)
-                            item.store?.thumbnailImg = thumbnailImg
-                            DispatchQueue.main.async {
-                                itemCell.setThumbnailImage(image: thumbnailImg!)
+        if indexPath.section == 0{
+            let categoryCell: CategoryTableViewCell = cell as! CategoryTableViewCell
+            categoryCell.setDelegate(delegate: self, datasource: self)
+        }else{
+            if switchIndex == 0{
+                let item = itemData[indexPath.row]
+                let itemCell: ItemTableViewCell = cell as! ItemTableViewCell
+                if item.store?.thumbnail != nil {
+                    DispatchQueue.global().async {
+                        if let url = NSURL(string: (item.store?.thumbnail)!) {
+                            if let data = NSData(contentsOf: url as URL) {
+                                let thumbnailImg = UIImage.init(data: data as Data!)
+                                item.store?.thumbnailImg = thumbnailImg
+                                DispatchQueue.main.async {
+                                    itemCell.setThumbnailImage(image: thumbnailImg!)
+                                }
                             }
                         }
                     }
                 }
-            }
-        }else{
-            let store = storeData[indexPath.row]
-            let storeCell: StoreTableViewCell = cell as! StoreTableViewCell
-            if store.thumbnail != nil {
-                DispatchQueue.global().async {
-                    if let url = NSURL(string: store.thumbnail) {
-                        if let data = NSData(contentsOf: url as URL) {
-                            let thumbnailImg = UIImage.init(data: data as Data!)
-                            store.thumbnailImg = thumbnailImg
-                            DispatchQueue.main.async {
-                                storeCell.setThumbnailImage(image: thumbnailImg!)
+            }else{
+                let store = storeData[indexPath.row]
+                let storeCell: StoreTableViewCell = cell as! StoreTableViewCell
+                if store.thumbnail != nil {
+                    DispatchQueue.global().async {
+                        if let url = NSURL(string: store.thumbnail) {
+                            if let data = NSData(contentsOf: url as URL) {
+                                let thumbnailImg = UIImage.init(data: data as Data!)
+                                store.thumbnailImg = thumbnailImg
+                                DispatchQueue.main.async {
+                                    storeCell.setThumbnailImage(image: thumbnailImg!)
+                                }
                             }
                         }
                     }
@@ -129,6 +154,7 @@ class HomeTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 { return }
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         if switchIndex == 0 {
             let viewController = storyboard.instantiateViewController(withIdentifier: "couponView") as! CouponTableViewController
@@ -142,11 +168,45 @@ class HomeTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return getSectionHeader()
+        return section == 0 ? nil : getSectionHeader()
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 45
+        return section == 0 ? 0 : 45
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "category", for: indexPath) as! CategoryCollectionViewCell
+        let (name, imageName) = categories[indexPath.item]
+        cell.setCategoryCell(icon: UIImage.init(named: imageName)!, title: name)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let categoryController = storyboard.instantiateViewController(withIdentifier: "category") as! CategoryViewController
+        self.navigationController?.pushViewController(categoryController, animated: true)
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return categories.count
+    }
+    
+    func setupCountdownLabels(){
+        for i in [0,1,2] {
+            let countdown = CountdownLabel.init(frame: CGRect.init(x: 0, y: 0, width: 170, height: 50), minutes: 20*20)
+            //countdown.backgroundColor = UIColor.init(red: 255/255.0, green: 182/255.0, blue: 0, alpha: 1)
+            countdown.backgroundColor = UIColor.init(white: 0, alpha: 0.5)
+            countdown.textColor = .white
+            countdown.font = UIFont.init(name: "Avenir-Black", size: 30)
+            countdown.textAlignment = .center
+            countdown.start()
+            countdowns.insert(countdown, at: i)
+        }
     }
     
     func setupElement(){

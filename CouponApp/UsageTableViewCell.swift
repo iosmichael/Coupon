@@ -37,6 +37,33 @@ class UsageTableViewCell: UITableViewCell {
 
 }
 
+protocol CountDownTableViewCellDelegate {
+    func getCouponBtnClicked()
+}
+
+class CountDownTableViewCell: UITableViewCell {
+    
+    static let height:CGFloat = 75
+    
+    var delegate:CountDownTableViewCellDelegate?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    func setDelegate(delegate:CountDownTableViewCellDelegate){
+        self.delegate = delegate
+    }
+    @IBAction func getCouponBtnClicked(_ sender: Any) {
+        self.delegate?.getCouponBtnClicked()
+    }
+    
+    class func getHeight() -> CGFloat{
+        return height
+    }
+    
+}
+
 
 class infoTableViewCell: UITableViewCell {
     static let height:CGFloat = 45
@@ -88,6 +115,45 @@ class offerTableViewCell:UITableViewCell{
         self.setNeedsLayout()
     }
 }
+
+protocol toolsTableViewCellDelegate {
+    func locationBtnClicked()
+    func storeBtnClicked()
+}
+
+class toolsTableViewCell:UITableViewCell{
+    
+    static let height:CGFloat = 75
+    
+    var delegate:toolsTableViewCellDelegate?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
+    
+    func setDelegate(delegate:toolsTableViewCellDelegate){
+        self.delegate = delegate
+    }
+    
+    class func getHeight() -> CGFloat{
+        return height
+    }
+    
+    @IBAction func storeClicked(_ sender: Any) {
+        self.delegate?.storeBtnClicked()
+    }
+    @IBAction func locationClicked(_ sender: Any) {
+        self.delegate?.locationBtnClicked()
+    }
+}
+
 
 class imagesTableViewCell:UITableViewCell{
     
