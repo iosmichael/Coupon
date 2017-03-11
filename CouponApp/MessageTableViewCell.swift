@@ -27,6 +27,12 @@ class MessageTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func setMessage(message:Message){
+        self.messageContent.text = message.content
+        self.title.text = message.title
+        self.date.text = message.date
+    }
+    
     class func getHeight() -> CGFloat{
         return height
     }

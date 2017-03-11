@@ -9,12 +9,13 @@
 import UIKit
 import Firebase
 
-class HomeTableViewController: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class HomeTableViewController: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource, HomePageSlideViewDelegate {
+    var banners:[Item] = []
+    var headerView:HomePageSlideView?
     
     var categories:[(String,String)] = []
     var categoryImages:[UIImage] = []
     var categoryCollectionView: UICollectionView?
-    var countdowns:[CountdownLabel] = []
     
     var switchIndex = 0
     var itemData:[Item] = []
@@ -29,11 +30,9 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
         self.tableView.register(UINib.init(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: "Item")
         self.tableView.register(UINib.init(nibName: "StoreTableViewCell", bundle: nil), forCellReuseIdentifier: "Store")
         self.tableView.register(UINib.init(nibName: "CategoryTableViewCell", bundle: nil), forCellReuseIdentifier: "Category")
+        headerView = HomePageSlideView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 375 * 163))
         setupCategories()
-        setupCountdownLabels()
-        let headerView = HomePageSlideView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 375 * 163))
-        headerView.setupScrollView(images: [UIImage.init(named: "banner")!,UIImage.init(named: "banner")!,UIImage.init(named: "banner")!], labels: countdowns, currentPage: 0)
-        self.tableView.tableHeaderView = headerView
+        setupBanners()
         self.tableView.separatorStyle = .none
         self.setupElement()
         self.setupDatabase()
@@ -206,6 +205,8 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let categoryController = storyboard.instantiateViewController(withIdentifier: "category") as! CategoryViewController
+        let (category, _) = categories[indexPath.row]
+        categoryController.category = category
         self.navigationController?.pushViewController(categoryController, animated: true)
     }
     
@@ -218,15 +219,17 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
     }
     
     func setupCountdownLabels(){
-        for i in [0,1,2] {
-            let countdown = CountdownLabel.init(frame: CGRect.init(x: 0, y: 0, width: 170, height: 50), minutes: 20*20)
+        for banner in self.banners {
+            let currentDate = Date()
+            let dueDate = currentDate.convertStringToDueDate(date: banner.due)
+            let countdown = CountdownLabel.init(frame: CGRect.init(x: 0, y: 0, width: 170, height: 50), fromDate: currentDate, targetDate: dueDate)
             //countdown.backgroundColor = UIColor.init(red: 255/255.0, green: 182/255.0, blue: 0, alpha: 1)
             countdown.backgroundColor = UIColor.init(white: 0, alpha: 0.5)
             countdown.textColor = .white
             countdown.font = UIFont.init(name: "Avenir-Black", size: 30)
             countdown.textAlignment = .center
             countdown.start()
-            countdowns.insert(countdown, at: i)
+            banner.countdown = countdown
         }
     }
     
@@ -241,7 +244,7 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
         runkeeperSwitch?.frame = CGRect(x: (screenBounds.width - 250)/2.0, y: 5, width: 250.0, height: 35.0)
         runkeeperSwitch?.addTarget(self, action: #selector(switchValueDidChange(sender:)), for: .valueChanged)
         runkeeperSwitch?.autoresizingMask = [.flexibleWidth]
-        searchButton = UIButton.init(frame: CGRect.init(x: screenBounds.width - 15 - 20, y: 12.5, width: 20, height: 20))
+        searchButton = UIButton.init(frame: CGRect.init(x: screenBounds.width - 10 - 20, y: 12.5, width: 20, height: 20))
         searchButton?.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         searchButton?.setImage(UIImage.init(named: "search"), for: .normal)
 
@@ -263,12 +266,66 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
             for category in categories{
                 let gsReference = storage.reference(withPath: "categories/"+category+"-icon.png")
                 gsReference.downloadURL(completion: { (url, error) in
-                    self.categories.insert((category,(url?.absoluteString)!), at: 0)
+                    self.categories.append((category,(url?.absoluteString)!))
                     self.tableView.reloadData()
                     self.categoryCollectionView?.reloadData()
                 })
             }
         }
+    }
+    
+    func setupBanners(){
+        let itemManager = ItemManager()
+        itemManager.queryBanners().observe(.value, with: { (snapshot) in
+            let banners = itemManager.getItems(snapshot: snapshot)
+            self.banners = banners
+            self.setupCountdownLabels()
+            self.setupBannerImages()
+        })
+    }
+    
+    func setupBannerImages(){
+        for banner in banners{
+            if banner.bannerDownloadImage == nil{
+                self.reloadBannerTableHeader()
+            }else{
+                DispatchQueue.global().async {
+                    if let url = NSURL(string: banner.bannerImg!) {
+                        if let data = NSData(contentsOf: url as URL) {
+                            let bannerImg = UIImage.init(data: data as Data!)
+                            DispatchQueue.main.async {
+                                banner.bannerDownloadImage = bannerImg
+                                self.reloadBannerTableHeader()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    
+    func pageTapped(pageIndex: Int) {
+        let item = banners[pageIndex]
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let couponController = storyboard.instantiateViewController(withIdentifier: "couponView") as! CouponTableViewController
+        couponController.coupon = item
+        self.navigationController?.pushViewController(couponController, animated: true)
+    }
+    
+    func reloadBannerTableHeader(){
+        var bannerImages:[UIImage] = []
+        var countdowns:[CountdownLabel] = []
+        for banner in banners{
+            if banner.bannerDownloadImage == nil{
+                bannerImages.append(UIImage.init(named: "banner")!)
+            }else{
+                bannerImages.append(banner.bannerDownloadImage!)
+            }
+            countdowns.append(banner.countdown!)
+        }
+        headerView?.setupScrollView(images: bannerImages, labels: countdowns, currentPage: 0)
+        self.tableView.tableHeaderView = headerView!
     }
     
     func setupDatabase(){

@@ -172,10 +172,10 @@ class imagesTableViewCell:UITableViewCell{
         super.awakeFromNib()
         // Initialization code
         let layout = UICollectionViewFlowLayout()
-        let itemWidth = self.collectionView.frame.size.width/3.05
-        layout.sectionInset = UIEdgeInsets.init(top: itemMargins, left: itemMargins, bottom: itemMargins, right: 0)
+        let itemWidth = (UIScreen.main.bounds.width - 4) / 3
+        layout.sectionInset = UIEdgeInsets.init(top: itemMargins, left: itemMargins, bottom: itemMargins, right: itemMargins)
         layout.minimumLineSpacing = 1
-        layout.minimumInteritemSpacing = 0
+        layout.minimumInteritemSpacing = 1
         layout.scrollDirection = UICollectionViewScrollDirection.vertical
         layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         self.collectionView.collectionViewLayout = layout

@@ -21,4 +21,5 @@ class ConfigManager: NSObject {
             handler(categories)
         })
     }
+    
 }

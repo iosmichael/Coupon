@@ -89,7 +89,7 @@ class StoreTitleTableViewCell: UITableViewCell {
     
     func setStore(store:Store){
         self.storeName.text = store.title
-        self.category.text = "Shopping & Clothing"
+        self.category.text = store.category
         if store.thumbnailImg == nil{
             self.thumbnail.image = UIImage.init(named: "amazon")
         }else{

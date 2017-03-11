@@ -9,7 +9,12 @@
 import Foundation
 import UIKit
 
-extension UILabel{
-    
-
+extension Date{
+    func convertStringToDueDate(date:String)->Date{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return dateFormatter.date(from: date)!
+    }
 }
+
+

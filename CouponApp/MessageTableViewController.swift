@@ -10,8 +10,11 @@ import UIKit
 
 class MessageTableViewController: UITableViewController {
 
+    var messages:[Message] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,11 +29,13 @@ class MessageTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return messages.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "message", for: indexPath) as! MessageTableViewCell
+        let message = messages[indexPath.row]
+        cell.setMessage(message: message)
         cell.selectionStyle = .none
         return cell
     }
@@ -62,4 +67,10 @@ class MessageTableViewController: UITableViewController {
         return sectionView
     }
 
+    func setupData(){
+        let messageManager = MessageManager()
+        self.messages = messageManager.populatingMessages()
+        self.tableView.reloadData()
+    }
+    
 }

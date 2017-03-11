@@ -37,7 +37,7 @@ class StoreTableViewCell: UITableViewCell {
     
     func setStore(store:Store){
         self.storeTitle.text = store.title
-        self.category.text = "Category"
+        self.category.text = store.category
         if store.thumbnailImg == nil{
             self.thumbnail.image = UIImage.init(named: "test-item")
         }else{

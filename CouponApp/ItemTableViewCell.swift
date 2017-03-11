@@ -48,6 +48,10 @@ class ItemTableViewCell: UITableViewCell {
         self.setNeedsLayout()
     }
     
+    func getCellHeight()->CGFloat{
+        return self.couponName.intrinsicContentSize.height 
+    }
+    
     class func getHeight()->CGFloat{
         return height
     }

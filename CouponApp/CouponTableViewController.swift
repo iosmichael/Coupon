@@ -24,12 +24,15 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
         super.viewDidLoad()
         self.tableView.register(UINib.init(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: "item")
         self.tableView.separatorStyle = .none
-        timer = CountdownLabel.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: 40), minutes: 440)
+        
+        let currentDate = Date()
+        let dueDate = currentDate.convertStringToDueDate(date: (coupon?.due)!)
+        timer = CountdownLabel.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: 40), fromDate: currentDate, targetDate: dueDate)
         timer?.font = UIFont.init(name: "Avenir-Black", size: 30)
         timer?.textAlignment = .center
         timer?.textColor = .white
         timer?.start()
-        
+        incrementStoreVisit()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -187,13 +190,22 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
         print("Location clicked")
         //Open MapKit
         //And Show Direction
-        let latitude: CLLocationDegrees = 41.8705535
-        let longtitude:CLLocationDegrees = -87.6380829
-        let regionDistance:CLLocationDistance = 1000
-        let coordinates = CLLocationCoordinate2DMake(latitude, longtitude)
-        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
-        let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
+        if coupon?.store?.latitude == nil || coupon?.store?.longtitude == nil {
+            let alert = UIAlertController.init(title: "Location Unavailable", message: "The store has not yet shown its location", preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: { (alert) in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
         if #available(iOS 10.0, *) {
+            let latitude: CLLocationDegrees = CLLocationDegrees((coupon?.store?.latitude)!)
+            let longtitude:CLLocationDegrees = CLLocationDegrees((coupon?.store?.longtitude)!)
+            let regionDistance:CLLocationDistance = 1000
+            let coordinates = CLLocationCoordinate2DMake(latitude, longtitude)
+            let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+            let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
             let placemark = MKPlacemark(coordinate: coordinates)
             let mapItem = MKMapItem(placemark: placemark)
             mapItem.name = coupon?.store?.title
@@ -220,7 +232,12 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
     
     func getCouponBtnClicked() {
         print ("Get Coupon")
-        let view = CouponModalView.instantiateFromNib()
+        let view = CouponModalView.instantiateFromNib() 
+        if self.coupon?.store?.thumbnailImg != nil {
+            view.setModalView(thumbnail: (self.coupon?.store?.thumbnailImg)!, couponTitle: (self.coupon?.title)!)
+        }else{
+            view.setModalView(thumbnail: UIImage.init(named: "amazon")!, couponTitle: (self.coupon?.title)!)
+        }
         let window = UIApplication.shared.delegate?.window
         let modal = PopupModal.show(modalView: view, inView: window!!)
         view.closeButtonHandler = {[weak modal] in
@@ -229,6 +246,11 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
         }
         let itemManager = ItemManager()
         itemManager.incrementUses(itemId: (coupon?.uid)!)
+    }
+    
+    func incrementStoreVisit(){
+        let storeManager = StoreManager()
+        storeManager.incrementVisits(storeId: (coupon?.store?.uid)!)
     }
     
 

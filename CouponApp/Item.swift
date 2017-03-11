@@ -13,8 +13,13 @@ class Item: NSObject {
     var store:Store?
     var detail:String = ""
     var date:String = ""
+    var due:String = ""
     var numberOfUses: NSInteger = 0
     var availability:String = ""
     var uid:String = ""
     var uses: Int = 0
+    //ONLY FOR BANNER USE
+    var bannerImg:String?
+    var bannerDownloadImage:UIImage?
+    var countdown:CountdownLabel?
 }

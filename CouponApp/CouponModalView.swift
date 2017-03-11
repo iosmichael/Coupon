@@ -10,15 +10,16 @@ import UIKit
 
 class CouponModalView: UIView {
     var closeButtonHandler: (() -> Void)?
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+    
+    @IBOutlet weak var thumbnail: UIImageView!
+    @IBOutlet weak var couponTitle: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.thumbnail.layer.cornerRadius = self.thumbnail.frame.width/2
+        self.thumbnail.layer.borderColor = UIColor.black.cgColor
+        self.thumbnail.layer.borderWidth = 2
+        self.thumbnail.clipsToBounds = true
     }
     
     class func instantiateFromNib() -> CouponModalView {
@@ -27,6 +28,11 @@ class CouponModalView: UIView {
     }
     @IBAction func closeBtnClicked(_ sender: Any) {
         self.closeButtonHandler?()
+    }
+    
+    func setModalView(thumbnail:UIImage, couponTitle:String){
+        self.thumbnail.image = thumbnail
+        self.couponTitle.text = couponTitle
     }
 
 }

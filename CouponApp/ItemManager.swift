@@ -21,6 +21,10 @@ class ItemManager: NSObject {
         return (itemRef?.queryLimited(toLast: UInt(limit)))!
     }
     
+    func queryBanners()->FIRDatabaseQuery{
+        return (itemRef?.queryOrdered(byChild: "isBanner").queryEqual(toValue: 1))!
+    }
+    
     func queryBySearchStr(limit:Int, query:String)->FIRDatabaseQuery{
         return (itemRef?.queryLimited(toLast: UInt(limit)).queryOrdered(byChild: "name").queryStarting(atValue: query))!
     }
@@ -48,6 +52,11 @@ class ItemManager: NSObject {
         }
     }
     
+    func deleteItem(itemId:String){
+        let ref = itemRef?.child(itemId)
+        ref?.removeValue()
+    }
+    
     public func getItems(snapshot:FIRDataSnapshot)->[Item]{
         var items = [Item]()
         for child:FIRDataSnapshot in snapshot.children.allObjects as! [FIRDataSnapshot]{
@@ -55,7 +64,6 @@ class ItemManager: NSObject {
             let store = Store()
             item.uid = child.key
             print("snapshot --------> \(snapshot)")
-            print("child --------> \(child)")
             for elem:FIRDataSnapshot in child.children.allObjects as! [FIRDataSnapshot]{
                 switch elem.key {
                 case "name":
@@ -81,12 +89,30 @@ class ItemManager: NSObject {
                     store.detail = elem.value as! String!
                     break
                 case "images":
-                    for url in elem.value as! [String:String] {
-                        store.imagesURL.insert(url.value, at: 0)
+                    for url in elem.value as! [String] {
+                        store.imagesURL.insert(url, at: 0)
                     }
                     break
                 case "uses":
                     item.uses = elem.value as? Int ?? 0
+                    break
+                case "due":
+                    item.due = elem.value as! String!
+                    break
+                case "storeLatitude":
+                    store.latitude = elem.value as! Float!
+                    break
+                case "storeLongtitude":
+                    store.longtitude = elem.value as! Float!
+                    break
+                case "website":
+                    store.website = elem.value as! String!
+                    break
+                case "category":
+                    store.category = elem.value as! String!
+                    break
+                case "bannerImage":
+                    item.bannerImg = elem.value as! String!
                     break
                 default:
                     break

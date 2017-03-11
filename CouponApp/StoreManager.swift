@@ -31,7 +31,7 @@ class StoreManager: NSObject {
             let store = Store()
             store.uid = child.key
             print("snapshot --------> \(snapshot)")
-            print("child --------> \(child)")
+
             for elem:FIRDataSnapshot in child.children.allObjects as! [FIRDataSnapshot]{
                 switch elem.key {
                 case "name":
@@ -51,7 +51,17 @@ class StoreManager: NSObject {
                 case  "date":
                     store.date = elem.value as! String!
                     break
-                case "tags":
+                case "latitude":
+                    store.latitude = elem.value as! Float!
+                    break
+                case "longtitude":
+                    store.longtitude = elem.value as! Float!
+                    break
+                case "website":
+                    store.website = elem.value as! String!
+                    break
+                case "category":
+                    store.category = elem.value as! String!
                     break
                 default:
                     break
@@ -61,5 +71,25 @@ class StoreManager: NSObject {
         }
         return stores
     }
+    
+    func incrementVisits(storeId:String){
+        let ref = storeRef?.child(storeId)
+        ref?.runTransactionBlock({ (currentData: FIRMutableData) -> FIRTransactionResult in
+            if var store = currentData.value as? [String : AnyObject] {
+                var visits = store["visits"] as? Int ?? 0
+                visits += 1
+                store["visits"] = visits as AnyObject?
+                // Set value and report transaction success
+                currentData.value = store
+                return FIRTransactionResult.success(withValue: currentData)
+            }
+            return FIRTransactionResult.success(withValue: currentData)
+        }) { (error, committed, snapshot) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+
 
 }

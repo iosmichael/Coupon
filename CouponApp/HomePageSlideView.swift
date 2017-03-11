@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol HomePageSlideViewDelegate {
+    func pageTapped(pageIndex:Int)
+}
+
 class HomePageSlideView: UIView, UIScrollViewDelegate {
 
     var scrollView: UIScrollView?
     var pageIndex: UIPageControl?
+    var delegate:HomePageSlideViewDelegate?
     
     var images = [UIImage]()
     
@@ -82,6 +87,15 @@ class HomePageSlideView: UIView, UIScrollViewDelegate {
         scrollView?.bounces = false
         scrollView?.delegate = self;
         setupPageIndex(currentPage: currentPage)
+    }
+    
+    func setupBanners(banners:[Item], handler:((Item)->Void)){
+        let gestureRecognizor = UITapGestureRecognizer.init(target: self, action: #selector(tappedOnBanner))
+        self.scrollView?.addGestureRecognizer(gestureRecognizor)
+    }
+    
+    func tappedOnBanner(){
+        self.delegate?.pageTapped(pageIndex: (pageIndex?.currentPage)!)
     }
     
     func changePage(){

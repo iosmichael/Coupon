@@ -9,5 +9,9 @@
 import UIKit
 
 class Message: NSObject {
+    
+    var title:String = ""
+    var content:String = ""
+    var date:String = ""
 
 }
