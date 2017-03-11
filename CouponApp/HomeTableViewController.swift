@@ -87,7 +87,7 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
             if categories.count == 0 { return 0 }
             return CategoryTableViewCell.getHeight()
         }else{
-            return switchIndex == 0 ? ItemTableViewCell.getHeight() : StoreTableViewCell.getHeight()
+            return switchIndex == 0 ? ItemTableViewCell.getHeight(title: (itemData[indexPath.row].title)) : StoreTableViewCell.getHeight()
         }
     }
     

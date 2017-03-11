@@ -48,12 +48,10 @@ class ItemTableViewCell: UITableViewCell {
         self.setNeedsLayout()
     }
     
-    func getCellHeight()->CGFloat{
-        return self.couponName.intrinsicContentSize.height 
-    }
-    
-    class func getHeight()->CGFloat{
-        return height
+    class func getHeight(title:String)->CGFloat{
+        let labelWidth = UIScreen.main.bounds.width - 71 - 8
+        let actualHeight = UILabel().calculateLabelHeight(labelWidth: labelWidth, content: title, font: UIFont.init(name: "HelveticaNeue-Medium", size: 15)!) + 29 + 18
+        return actualHeight > height ? actualHeight : height
     }
     
 }

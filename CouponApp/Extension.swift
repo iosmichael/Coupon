@@ -17,4 +17,16 @@ extension Date{
     }
 }
 
+extension UILabel{
+    func calculateLabelHeight(labelWidth:CGFloat, content:String, font:UIFont)->CGFloat{
+        let label = UILabel.init(frame:CGRect.init(x: 0, y: 0, width: labelWidth, height: 9999))
+        label.text = content
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.sizeToFit()
+        label.font = font
+        return label.frame.height
+    }
+}
+
 

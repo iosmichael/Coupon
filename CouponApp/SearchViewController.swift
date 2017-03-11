@@ -125,7 +125,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return isItem ? ItemTableViewCell.getHeight() : StoreTableViewCell.getHeight()
+        return isItem ? ItemTableViewCell.getHeight(title: (itemData[indexPath.row].title)) : StoreTableViewCell.getHeight()
     }
     
     func setupData(){

@@ -98,11 +98,11 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return ItemTableViewCell.getHeight()
+            return ItemTableViewCell.getHeight(title: (coupon?.title)!)
         case 1:
             return 92 // Countdown Timer Height
         case 2:
-            return offerTableViewCell.getHeight()
+            return offerTableViewCell.getHeight(detail: (coupon?.detail)!)
         case 3:
             return 80
         case 4:
@@ -126,7 +126,7 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel.init(frame: CGRect.init(x: 8, y: 2.5, width: 300, height: 20))
-        label.font = UIFont.init(name: "HelveticaNeue", size: 15)
+        label.font = UIFont.init(name: "HelveticaNeue", size: 16)
         label.textColor = UIColor.lightGray
         if section == 2 {
             label.text = "OFFER DETAIL"

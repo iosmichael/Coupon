@@ -22,8 +22,14 @@ class StoreDetailTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    class func getHeight() -> CGFloat{
-        return height
+    func getCellHeight()->CGFloat{
+        return detail.intrinsicContentSize.height + 8*2
+    }
+    
+    class func getHeight(detail:String) -> CGFloat{
+        let labelWidth = UIScreen.main.bounds.width-8*2
+        let font = UIFont.init(name: "HelveticaNeue", size: 16)
+        return UILabel().calculateLabelHeight(labelWidth: labelWidth, content: detail, font: font!) + 8
     }
     
     func setDetail(detail:String){
@@ -33,7 +39,7 @@ class StoreDetailTableViewCell: UITableViewCell {
 }
 
 class OtherOfferTableViewCell: UITableViewCell {
-    static let height:CGFloat = 77
+    static let height:CGFloat = 76.5
     
     @IBOutlet weak var offerTitle: UILabel!
     @IBOutlet weak var date: UILabel!
@@ -54,8 +60,10 @@ class OtherOfferTableViewCell: UITableViewCell {
         self.setNeedsLayout()
     }
     
-    class func getHeight() -> CGFloat{
-        return height
+    class func getHeight(title:String) -> CGFloat{
+        let labelWidth = UIScreen.main.bounds.width - 8 - 8
+        let actualHeight = UILabel().calculateLabelHeight(labelWidth: labelWidth, content: title, font: UIFont.init(name: "HelveticaNeue-Medium", size: 16)!) + 8 + 30.5
+        return actualHeight
     }
     
 }
@@ -79,7 +87,6 @@ class StoreTitleTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
         // Configure the view for the selected state
     }
     

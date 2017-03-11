@@ -106,8 +106,10 @@ class offerTableViewCell:UITableViewCell{
         
         // Configure the view for the selected state
     }
-    class func getHeight() -> CGFloat{
-        return height
+    class func getHeight(detail:String) -> CGFloat{
+        let labelWidth = UIScreen.main.bounds.width-8*2
+        let font = UIFont.init(name: "HelveticaNeue", size: 16)
+        return UILabel().calculateLabelHeight(labelWidth: labelWidth, content: detail, font: font!) + 8
     }
     
     func setOfferDetail(detail:String){

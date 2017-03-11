@@ -44,7 +44,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ItemTableViewCell.getHeight()
+        return ItemTableViewCell.getHeight(title: (items[indexPath.row].title))
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

@@ -84,11 +84,11 @@ class StoreTableViewController: UITableViewController, UICollectionViewDataSourc
         if indexPath.section == 0 {
             return StoreTitleTableViewCell.getHeight()
         }else if indexPath.section == 1{
-            return StoreDetailTableViewCell.getHeight()
+            return StoreDetailTableViewCell.getHeight(detail: (store?.detail)!)
         }else if indexPath.section == 2{
             return tableView.frame.width
         }else{
-            return OtherOfferTableViewCell.getHeight()
+            return OtherOfferTableViewCell.getHeight(title: otherOffer[indexPath.row].title)
         }
     }
     
