@@ -14,8 +14,8 @@ class Store: NSObject {
     var title:String = ""
     var category:String = ""
     var detail:String = ""
-    var latitude:Float?
-    var longtitude:Float?
+    var latitude:Float32?
+    var longtitude:Float32?
     var website:String?
     var uid: String = ""
     var date: String = ""

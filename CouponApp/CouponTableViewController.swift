@@ -88,7 +88,24 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
         }
     }
     
+    
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            let itemCell:ItemTableViewCell = cell as! ItemTableViewCell
+            if coupon?.store?.thumbnail != nil {
+                DispatchQueue.global().async {
+                    if let url = NSURL(string: (self.coupon?.store?.thumbnail)!) {
+                        if let data = NSData(contentsOf: url as URL) {
+                            let thumbnailImg = UIImage.init(data: data as Data!)
+                            self.coupon?.store?.thumbnailImg = thumbnailImg
+                            DispatchQueue.main.async {
+                                itemCell.setThumbnailImage(image: thumbnailImg!)
+                            }
+                        }
+                    }
+                }
+            }
+        }
         if indexPath.section == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "images") as! imagesTableViewCell
             cell.setCollectionDelegate(delegate: self, datasource: self)
@@ -200,8 +217,8 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
         }
         
         if #available(iOS 10.0, *) {
-            let latitude: CLLocationDegrees = CLLocationDegrees((coupon?.store?.latitude)!)
-            let longtitude:CLLocationDegrees = CLLocationDegrees((coupon?.store?.longtitude)!)
+            let latitude: CLLocationDegrees = CLLocationDegrees.init((coupon?.store?.latitude)!)
+            let longtitude:CLLocationDegrees = CLLocationDegrees.init((coupon?.store?.longtitude)!)
             let regionDistance:CLLocationDistance = 1000
             let coordinates = CLLocationCoordinate2DMake(latitude, longtitude)
             let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)

@@ -20,6 +20,7 @@ class ImagePresenterViewController: UIViewController {
         presenterView = HomePageSlideView.init(frame: CGRect.init(x: 0, y: (contentRect.height-contentRect.width)/4, width: contentRect.width, height: contentRect.width))
         self.view.addSubview(presenterView!)
         presenterView?.setupScrollView(images: images, currentPage: currentPage)
+        presenterView?.setupPageIndex(currentPage: currentPage)
         self.view.backgroundColor = UIColor.black
         let cancelBtn = UIButton.init(frame: CGRect.init(x: 5, y: 20, width: 40, height: 40))
         cancelBtn.setImage(UIImage.init(named: "close"), for: .normal)

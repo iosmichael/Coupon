@@ -33,6 +33,8 @@ class ItemManager: NSObject {
         return (itemRef?.queryOrdered(byChild: "storeId").queryEqual(toValue: storeId))!
     }
     
+    // Individual Operations
+    
     func incrementUses(itemId:String){
         let ref = itemRef?.child(itemId)
         ref?.runTransactionBlock({ (currentData: FIRMutableData) -> FIRTransactionResult in
@@ -100,10 +102,10 @@ class ItemManager: NSObject {
                     item.due = elem.value as! String!
                     break
                 case "storeLatitude":
-                    store.latitude = elem.value as! Float!
+                    store.latitude = elem.value as! Float32!
                     break
                 case "storeLongtitude":
-                    store.longtitude = elem.value as! Float!
+                    store.longtitude = elem.value as! Float32!
                     break
                 case "website":
                     store.website = elem.value as! String!
@@ -119,7 +121,7 @@ class ItemManager: NSObject {
                 }
             }
             item.store = store
-            items.append(item)
+            items.insert(item, at: 0)
         }
         return items
     }

@@ -141,7 +141,7 @@ class StoreTableViewController: UITableViewController, UICollectionViewDataSourc
                     if let data = NSData(contentsOf: url as URL) {
                         let storeImg = UIImage.init(data: data as Data!)
                         let imageCell:imageCollectionViewCell = cell as! imageCollectionViewCell
-                        self.storeImages.insert(storeImg!, at: 0)
+                        self.storeImages.append(storeImg!)
                         DispatchQueue.main.async {
                             imageCell.setImage(image: storeImg!)
                         }

@@ -14,7 +14,7 @@ class StoreTableViewCell: UITableViewCell {
     @IBOutlet weak var storeTitle: UILabel!
     @IBOutlet weak var category: UILabel!
     
-    static let height:CGFloat = 70
+    static let height:CGFloat = 85
     
     override func awakeFromNib() {
         super.awakeFromNib()
