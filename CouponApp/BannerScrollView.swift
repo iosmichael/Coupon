@@ -7,14 +7,16 @@
 //
 
 import UIKit
+import Firebase
 
-class BannerScrollView: UIScrollView, UIScrollViewDelegate {
+class BannerScrollView: UIScrollView, UIScrollViewDelegate, CountdownLabelDelegate{
     
     var totalPages = 0
     var bannerItems:[Item] = []
     var pageControl: UIPageControl?
     var scrollView:UIScrollView?
     var parentController: UITableViewController?
+    let storage = FIRStorage.storage()
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -29,8 +31,9 @@ class BannerScrollView: UIScrollView, UIScrollViewDelegate {
         self.scrollView?.delegate = self
         pageControl = UIPageControl.init(frame: CGRect.init(x: 0, y:  self.frame.size.height-20, width: self.frame.size.width, height: 20))
         pageControl?.autoresizingMask = [UIViewAutoresizing.flexibleRightMargin , UIViewAutoresizing.flexibleLeftMargin]
+        pageControl?.currentPage = 0
         self.addSubview(scrollView!)
-        self.backgroundColor = .white;
+        self.backgroundColor = .white
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -58,15 +61,25 @@ class BannerScrollView: UIScrollView, UIScrollViewDelegate {
                     banner.bannerDownloadImage = UIImage.init(named: "banner")!
                     self.addBanner(item: banner)
                 }else{
-                    if let url = NSURL(string: banner.bannerImg!) {
-                        if let data = NSData(contentsOf: url as URL) {
-                            let bannerImage = UIImage.init(data: data as Data!)
-                            banner.bannerDownloadImage = bannerImage
+                    let gsReference = self.storage.reference(withPath: "banners/"+banner.bannerImg!+".jpg")
+                    gsReference.downloadURL(completion: { (url, error) in
+                        if (url == nil) {
+                            banner.bannerDownloadImage = UIImage.init(named:"banner")!
                             DispatchQueue.main.async {
                                 self.addBanner(item:banner)
                             }
+                        }else{
+                            if let imgUrl = NSURL(string: (url?.absoluteString)!) {
+                                if let data = NSData(contentsOf: imgUrl as URL) {
+                                    let bannerImage = UIImage.init(data: data as Data!)
+                                    banner.bannerDownloadImage = bannerImage
+                                    DispatchQueue.main.async {
+                                        self.addBanner(item:banner)
+                                    }
+                                }
+                            }
                         }
-                    }
+                    })
                 }
             }
             DispatchQueue.main.async {
@@ -94,6 +107,7 @@ class BannerScrollView: UIScrollView, UIScrollViewDelegate {
         countdown.textColor = .white
         countdown.font = UIFont.init(name: "Avenir-Black", size: 30)
         countdown.textAlignment = .center
+        countdown.countdownDelegate = self
         countdown.start()
         return countdown
     }
@@ -133,6 +147,19 @@ class BannerScrollView: UIScrollView, UIScrollViewDelegate {
         pageControl?.currentPage = page
     }
     
-    
+    func countdownFinished() {
+        var index = 0
+        for item in bannerItems{
+            let current = Date()
+            let dueDate = current.convertStringToDueDate(date: item.due)
+            if current.compare(dueDate) == ComparisonResult.orderedDescending{
+                let itemManager = ItemManager()
+                itemManager.deleteItem(itemId: item.uid)
+                bannerItems.remove(at: index)
+            }
+            index += 1;
+        }
+        loaded(parent: parentController!, banners: bannerItems)
+    }
 
 }

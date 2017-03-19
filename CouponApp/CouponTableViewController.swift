@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class CouponTableViewController: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource, toolsTableViewCellDelegate, CountDownTableViewCellDelegate {
+class CouponTableViewController: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource, toolsTableViewCellDelegate, CountDownTableViewCellDelegate,CountdownLabelDelegate {
     
     let numberOfSection = 5
 
@@ -19,6 +19,7 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
     var timer:CountdownLabel?
     var storeImages: [UIImage] = []
     let numberOfStoreImages = 9
+    var isActive = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,7 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
         timer?.font = UIFont.init(name: "Avenir-Black", size: 30)
         timer?.textAlignment = .center
         timer?.textColor = .white
+        timer?.countdownDelegate = self
         timer?.start()
         incrementStoreVisit()
     }
@@ -65,6 +67,9 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
             let cell = tableView.dequeueReusableCell(withIdentifier: "countdown") as! CountDownTableViewCell
             cell.selectionStyle = .none
             cell.contentView.addSubview(timer!)
+            if !isActive {
+                cell.disableBtn()
+            }
             cell.setDelegate(delegate: self)
             return cell
         case 2:
@@ -270,5 +275,15 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
         storeManager.incrementVisits(storeId: (coupon?.store?.uid)!)
     }
     
+    
+    // LTMorphingLabel Delegate
+    
+    func countdownFinished() {
+        //Do something here
+        let itemManager = ItemManager()
+        itemManager.deleteItem(itemId: (self.coupon?.uid)!)
+        isActive = false
+        self.tableView.reloadData()
+    }
 
 }

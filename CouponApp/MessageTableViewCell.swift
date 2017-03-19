@@ -33,7 +33,9 @@ class MessageTableViewCell: UITableViewCell {
         self.date.text = message.date
     }
     
-    class func getHeight() -> CGFloat{
-        return height
+    class func getHeight(message:String)->CGFloat{
+        let labelWidth = UIScreen.main.bounds.width - 8 - 8
+        let actualHeight = UILabel().calculateLabelHeight(labelWidth: labelWidth, content: message, font: UIFont.init(name: "HelveticaNeue-Medium", size: 17)!) + 61
+        return actualHeight > height ? actualHeight : height
     }
 }

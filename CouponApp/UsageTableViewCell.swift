@@ -45,6 +45,8 @@ class CountDownTableViewCell: UITableViewCell {
     
     static let height:CGFloat = 75
     
+    @IBOutlet weak var getCouponBtn: UIButton!
+    
     var delegate:CountDownTableViewCellDelegate?
     
     override func awakeFromNib() {
@@ -54,6 +56,13 @@ class CountDownTableViewCell: UITableViewCell {
     func setDelegate(delegate:CountDownTableViewCellDelegate){
         self.delegate = delegate
     }
+    
+    func disableBtn(){
+        self.backgroundColor = UIColor.init(red: 90/255.0, green: 90/255.0, blue: 90/255.0, alpha: 1)
+        self.getCouponBtn.setImage(UIImage.init(named: "getBtn-inactive"), for: .disabled)
+        self.getCouponBtn.isEnabled = false
+    }
+    
     @IBAction func getCouponBtnClicked(_ sender: Any) {
         self.delegate?.getCouponBtnClicked()
     }

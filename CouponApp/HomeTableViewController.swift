@@ -273,6 +273,7 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
         })
     }
     
+    
     func setupDatabase(){
         //Setup Stores
         let storeManager = StoreManager()

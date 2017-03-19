@@ -17,6 +17,10 @@ class ItemManager: NSObject {
         itemRef = FIRDatabase.database().reference().child("coupons")
     }
     
+    func queryCategory(category:String)->FIRDatabaseQuery{
+        return (itemRef?.queryOrdered(byChild: "category").queryEqual(toValue: category))!
+    }
+    
     func queryNew(limit:Int)->FIRDatabaseQuery{
         return (itemRef?.queryLimited(toLast: UInt(limit)))!
     }
@@ -55,8 +59,13 @@ class ItemManager: NSObject {
     }
     
     func deleteItem(itemId:String){
-        let ref = itemRef?.child(itemId)
-        ref?.removeValue()
+        let itemsNode = itemRef?.child(itemId)
+        let archiveNode = FIRDatabase.database().reference().child("histories")
+        itemsNode?.observe(.value, with: { (snapshot) in
+            let childNode = archiveNode.childByAutoId().key
+            archiveNode.updateChildValues([childNode:snapshot.value!])
+            itemsNode?.removeValue()
+        })
     }
     
     public func getItems(snapshot:FIRDataSnapshot)->[Item]{

@@ -14,6 +14,7 @@ class MessageTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.separatorStyle = .none
         setupData()
     }
 
@@ -49,7 +50,7 @@ class MessageTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return MessageTableViewCell.getHeight()
+        return MessageTableViewCell.getHeight(message: messages[indexPath.row].title)
     }
     
     func getHeaderView() -> UIView {
@@ -69,8 +70,10 @@ class MessageTableViewController: UITableViewController {
 
     func setupData(){
         let messageManager = MessageManager()
-        self.messages = messageManager.populatingMessages()
-        self.tableView.reloadData()
+        messageManager.queryNewMessages(limit: 100).observe(.value, with: { (snapshot) in
+            self.messages = messageManager.getMessages(snapshot: snapshot)
+            self.tableView.reloadData()
+        })
     }
     
 }
