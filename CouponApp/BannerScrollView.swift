@@ -67,6 +67,7 @@ class BannerScrollView: UIScrollView, UIScrollViewDelegate, CountdownLabelDelega
                             banner.bannerDownloadImage = UIImage.init(named:"banner")!
                             DispatchQueue.main.async {
                                 self.addBanner(item:banner)
+                                self.setupScrollView()
                             }
                         }else{
                             if let imgUrl = NSURL(string: (url?.absoluteString)!) {
@@ -75,6 +76,7 @@ class BannerScrollView: UIScrollView, UIScrollViewDelegate, CountdownLabelDelega
                                     banner.bannerDownloadImage = bannerImage
                                     DispatchQueue.main.async {
                                         self.addBanner(item:banner)
+                                        self.setupScrollView()
                                     }
                                 }
                             }

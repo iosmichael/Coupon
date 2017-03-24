@@ -32,7 +32,7 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
         self.tableView.register(UINib.init(nibName: "StoreTableViewCell", bundle: nil), forCellReuseIdentifier: "Store")
         self.tableView.register(UINib.init(nibName: "CategoryTableViewCell", bundle: nil), forCellReuseIdentifier: "Category")
         self.tableView.separatorStyle = .none
-        headerView = BannerScrollView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 375 * 163))
+        headerView = BannerScrollView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 2))
         setupCategories()
         setupBanners()
         self.setupElement()

@@ -31,11 +31,13 @@ PODS:
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - GTMSessionFetcher/Core (1.1.8)
+  - JSQWebViewController (5.0.0)
 
 DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
+  - JSQWebViewController
 
 SPEC CHECKSUMS:
   Firebase: 53b2343db1ebfa3eb16bdb4318b8bb65360b2220
@@ -48,7 +50,8 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
+  JSQWebViewController: 0461aa42612b221571556df61d9c09f080cb2eef
 
-PODFILE CHECKSUM: 3d88722d50e7e0fa36382cc119ab4bb602dc467f
+PODFILE CHECKSUM: 757d6f4bb4c40ca5cc3e9241e36c959fcd40628a
 
 COCOAPODS: 1.1.1

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JSQWebViewController
 
 class StoreTableViewController: UITableViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -70,6 +71,13 @@ class StoreTableViewController: UITableViewController, UICollectionViewDataSourc
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0{
+            if self.store?.website != nil{
+                let controller = WebViewController(url: URL(string: (self.store?.website)!)!)
+                let nav = UINavigationController(rootViewController: controller)
+                present(nav, animated: true, completion: nil)
+            }
+        }
         if indexPath.section == 3 {
             let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
             let viewController = storyboard.instantiateViewController(withIdentifier: "couponView") as! CouponTableViewController

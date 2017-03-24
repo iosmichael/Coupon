@@ -8,6 +8,7 @@ target 'CouponApp' do
   pod 'Firebase/Core'
   pod 'Firebase/Storage'  
   pod 'Firebase/Database'  
+  pod 'JSQWebViewController'
   target 'CouponAppTests' do
     inherit! :search_paths
     # Pods for testing

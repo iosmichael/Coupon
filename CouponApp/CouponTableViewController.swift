@@ -266,8 +266,12 @@ class CouponTableViewController: UITableViewController, UICollectionViewDelegate
             modal?.closeWithLeansRandom()
             return
         }
-        let itemManager = ItemManager()
-        itemManager.incrementUses(itemId: (coupon?.uid)!)
+        let userDefault = UserDefaults.standard
+        if(userDefault.value(forKey: (self.coupon?.uid)!)==nil){
+            let itemManager = ItemManager()
+            itemManager.incrementUses(itemId: (coupon?.uid)!)
+            userDefault.setValue(1, forKey: (self.coupon?.uid)!)
+        }
     }
     
     func incrementStoreVisit(){
