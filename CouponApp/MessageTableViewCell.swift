@@ -34,8 +34,8 @@ class MessageTableViewCell: UITableViewCell {
     }
     
     class func getHeight(message:String)->CGFloat{
-        let labelWidth = UIScreen.main.bounds.width - 8 - 8
-        let actualHeight = UILabel().calculateLabelHeight(labelWidth: labelWidth, content: message, font: UIFont.init(name: "HelveticaNeue-Medium", size: 17)!) + 61
+        let labelWidth = UIScreen.main.bounds.width - 18 - 18
+        let actualHeight = UILabel().calculateLabelHeight(labelWidth: labelWidth, content: message, font: UIFont.init(name: "HelveticaNeue-Medium", size: 17)!) + 60.5
         return actualHeight > height ? actualHeight : height
     }
 }

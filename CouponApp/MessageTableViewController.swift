@@ -60,7 +60,7 @@ class MessageTableViewController: UITableViewController {
         let imageView = UIImageView.init(frame: CGRect.init(x: 15, y: 13, width: 22, height: 24))
         imageView.image = UIImage.init(named: "story")!
         let labelText = UILabel.init(frame: CGRect.init(x: 15 * 2 + 22, y: 10, width: screenBounds.width, height: 30))
-        labelText.text = "Stories"
+        labelText.text = "Message"
         labelText.textColor = .black
         labelText.font = UIFont.init(name: "HelveticaNeue-Medium", size: 23)
         sectionView.addSubview(imageView)

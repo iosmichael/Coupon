@@ -32,15 +32,17 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
         self.tableView.register(UINib.init(nibName: "StoreTableViewCell", bundle: nil), forCellReuseIdentifier: "Store")
         self.tableView.register(UINib.init(nibName: "CategoryTableViewCell", bundle: nil), forCellReuseIdentifier: "Category")
         self.tableView.separatorStyle = .none
-        headerView = BannerScrollView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 2))
+//        headerView = BannerScrollView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 2))
         setupCategories()
-        setupBanners()
+//        setupBanners()
         self.setupElement()
         self.setupDatabase()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        headerView = BannerScrollView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: self.tableView.frame.width / 2))
+        setupBanners()
         self.navigationController?.navigationBar.isHidden = true
     }
 
@@ -208,6 +210,7 @@ class HomeTableViewController: UITableViewController, UICollectionViewDelegate, 
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let categoryController = storyboard.instantiateViewController(withIdentifier: "category") as! CategoryViewController
         let (category, _) = categories[indexPath.row]
+        categoryController.isStore = (switchIndex != 0)
         categoryController.category = category
         self.navigationController?.pushViewController(categoryController, animated: true)
     }

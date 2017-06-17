@@ -111,10 +111,10 @@ class ItemManager: NSObject {
                     item.due = elem.value as! String!
                     break
                 case "storeLatitude":
-                    store.latitude = elem.value as! Float32!
+                    store.latitude = elem.value as! Float64!
                     break
                 case "storeLongtitude":
-                    store.longtitude = elem.value as! Float32!
+                    store.longtitude = elem.value as! Float64!
                     break
                 case "website":
                     store.website = elem.value as! String!

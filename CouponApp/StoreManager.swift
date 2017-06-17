@@ -21,6 +21,10 @@ class StoreManager: NSObject {
         return (storeRef?.queryLimited(toLast: UInt(limit)))!
     }
     
+    func queryCategory(category:String)->FIRDatabaseQuery{
+        return (storeRef?.queryOrdered(byChild:"category").queryEqual(toValue:category))!
+    }
+    
     func queryBySearchStr(limit:Int, query:String)->FIRDatabaseQuery{
         return (storeRef?.queryLimited(toLast: UInt(limit)).queryOrdered(byChild: "name").queryStarting(atValue: query))!
     }
@@ -52,10 +56,10 @@ class StoreManager: NSObject {
                     store.date = elem.value as! String!
                     break
                 case "latitude":
-                    store.latitude = elem.value as! Float!
+                    store.latitude = elem.value as! Float64!
                     break
                 case "longtitude":
-                    store.longtitude = elem.value as! Float!
+                    store.longtitude = elem.value as! Float64!
                     break
                 case "website":
                     store.website = elem.value as! String!
